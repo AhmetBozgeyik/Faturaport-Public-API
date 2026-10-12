@@ -1,0 +1,27 @@
+{
+  "succeeded": true,
+  "success": true,
+  "message": "Listeleme işlemi başarılı.",
+  "datas": [
+    {
+      "draftInvoiceId": "f2937a6e-f496-45bd-8694-08decb96e4f3",
+      "companyName": "ÖRNEK TEST FİRMASI",
+      "invoiceDate": "2026-06-16T13:44:37.697",
+      "invoiceNumber": "AYS2026000000110",
+      "currencySymbol": "₺",
+      "category": "E-Fatura",
+      "createdOnDate": "2026-06-16T13:44:37.697",
+      "totalAmount": 1200,
+      "invoiceType": "SATIS",
+      "draftStatus": "Taslak",
+      "invoiceProfile": "Ticari Fatura",
+      "draftStatusId": 0
+    }
+  ],
+  "pageNumber": 1,
+  "pageSize": 10,
+  "isFirstPage": true,
+  "isLastPage": true,
+  "totalPages": 1,
+  "totalRecords": 1
+}

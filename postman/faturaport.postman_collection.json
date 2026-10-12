@@ -1,0 +1,349 @@
+{
+  "info": {
+    "name": "Faturaport Public API V3",
+    "description": "İstekleri ayrı çalıştırın. create/send gövdelerini gerçek hesap bilgilerine uyarlayın. Koleksiyonun tamamını Runner ile çalıştırmayın; gönderim, silme ve iptal işlemleri içerir.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://devapi.faturaport.com",
+      "type": "string"
+    },
+    {
+      "key": "companyCode",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clientSecret",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "taxnumber",
+      "value": "0000000000",
+      "type": "string"
+    },
+    {
+      "key": "invoiceId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "draftInvoiceId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "outgoingInvoiceId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "invoiceType",
+      "value": "Satis",
+      "type": "string"
+    },
+    {
+      "key": "despatchId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "direction",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "POST Token Alma",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/Invoice/getapitoken",
+        "description": "Token Alma. Public doküman kapsamı: docs/api-referansi.md.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"company_code\": \"{{companyCode}}\",\n  \"client_id\": \"{{clientId}}\",\n  \"client_secret\": \"{{clientSecret}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.unset(\"accessToken\");",
+              "if (pm.response.code >= 200 && pm.response.code < 300) {",
+              "  const result = pm.response.json();",
+              "  if (result.success !== false && result.data && result.data.accessToken) pm.collectionVariables.set(\"accessToken\", result.data.accessToken);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST Fatura oluşturma",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/Invoice/add-invoice",
+        "description": "Fatura oluşturma. Public doküman kapsamı: docs/api-referansi.md.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"invoiceOutputType\": \"Html\",\n  \"invoiceTypeId\": \"Satis\",\n  \"invoiceProfileId\": \"TICARIFATURA\",\n  \"invoicePrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"refId\": \"d3b07384-d113-46c1-8409-b632945d8b2c\",\n  \"invoiceDate\": \"2025-09-04T13:44:37.697Z\",\n  \"alias\": \"test@pk.example.com\",\n  \"company\": {\n    \"companyName\": \"ÖRNEK TEST FİRMASI\",\n    \"taxNumber\": \"0000000000\",\n    \"taxOffice\": \"Örnek Vergi Dairesi\",\n    \"address\": \"Örnek Mahalle, Örnek Sokak No:1\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\",\n    \"isAddCompany\": false\n  },\n  \"isTaxIncludedInPrice\": false,\n  \"currencyType\": \"TRY\",\n  \"currencyRate\": 1,\n  \"subTotalAmount\": 1000,\n  \"totalTax\": 200,\n  \"totalAmount\": 1200,\n  \"subTotalGrossAmount\": 1000,\n  \"subTotalDiscountValue\": 0,\n  \"subTotalDiscountIsPercent\": true,\n  \"description\": \"Fatura açıklaması\",\n  \"returnInvoiceNumber\": null,\n  \"returnInvoiceDate\": null,\n  \"lineItems\": [\n    {\n      \"taxRateType\": \"KDV_20\",\n      \"quantity\": 1,\n      \"unitPrice\": 1000,\n      \"unitId\": 1,\n      \"taxAmount\": 200,\n      \"isDiscountPercent\": true,\n      \"discountAmount\": 0,\n      \"discountValue\": 0,\n      \"subTotal\": 1000,\n      \"subTotalIncludingDiscount\": 1000,\n      \"total\": 1200,\n      \"product\": {\n        \"productName\": \"Kalem\",\n        \"price\": 1000\n      },\n      \"lineItemTaxes\": [\n        {\n          \"invoiceCodeId\": 0,\n          \"lineItemTaxType\": \"KDV\",\n          \"isTaxPercent\": true,\n          \"amount\": 200,\n          \"percent\": 20,\n          \"taxableAmount\": 1000\n        }\n      ]\n    }\n  ],\n  \"orderInfos\": [],\n  \"despatchInfos\": [],\n  \"draftInvoiceType\": \"DraftInvoice\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "GET Giden e-fatura listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-outgoing-invoice-list?PageNumber=1&PageSize=10",
+        "description": "Giden e-fatura listesi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Giden e fatura pdf görüntüleme",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-invoice-pdf/{{invoiceId}}",
+        "description": "Giden e fatura pdf görüntüleme. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Giden e fatura ubl (xml)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-invoice-xml/{{invoiceId}}",
+        "description": "Giden e fatura ubl (xml). Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Gelen e-fatura listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-incoming-invoice-list?PageNumber=1&PageSize=10",
+        "description": "Gelen e-fatura listesi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Gelen e fatura pdf görüntüleme",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-incoming-invoice-pdf/{{invoiceId}}",
+        "description": "Gelen e fatura pdf görüntüleme. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Gelen e fatura ubl (xml)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-incoming-invoice-xml/{{invoiceId}}",
+        "description": "Gelen e fatura ubl (xml). Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Taslak fatura listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-draft-invoice-list?PageNumber=1&PageSize=10",
+        "description": "Taslak fatura listesi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "DELETE Taslak fatura silme",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/delete-draft-invoice/{{draftInvoiceId}}",
+        "description": "Taslak fatura silme. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "POST Taslak faturayı e-faturaya dönüştürme",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/Invoice/convert-to-einvoice",
+        "description": "Taslak faturayı e-faturaya dönüştürme. Public doküman kapsamı: docs/api-referansi.md.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"invoiceId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"prefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"alias\": \"test@pk.example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "POST Fatura durum kontrolü",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/Invoice/check-invoice-status",
+        "description": "Fatura durum kontrolü. Public doküman kapsamı: docs/api-referansi.md.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"invoiceId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"invoiceDocumentDirection\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "POST Giden e-arşiv faturayı iptal etme",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/cancel-outgoing-invoice/{{outgoingInvoiceId}}",
+        "description": "Giden e-arşiv faturayı iptal etme. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "POST e-Fatura mükellefiyet, posta kutuları, fatura serisi",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/check-customer-einvoice-info/{{taxnumber}}",
+        "description": "e-Fatura mükellefiyet, posta kutuları, fatura serisi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET fatura tipine göre vergi kodu listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/invoice-code/{{invoiceType}}",
+        "description": "fatura tipine göre vergi kodu listesi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Birim listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/units",
+        "description": "Birim listesi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Taslak fatura detayı",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-draft-invoice-preview/{{draftInvoiceId}}",
+        "description": "Taslak fatura detayı. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET RefId ile taslak fatura detayı",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-draft-invoice-preview-by-ref/{{refId}}",
+        "description": "RefId ile taslak fatura detayı. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Giden e-irsaliye listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-outgoing-despatch-list?PageNumber=1&PageSize=10",
+        "description": "Giden e-irsaliye listesi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Gelen e-irsaliye listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-incoming-despatch-list?PageNumber=1&PageSize=10",
+        "description": "Gelen e-irsaliye listesi. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET E-irsaliye pdf görüntüleme",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-despatch-pdf?DespatchId={{despatchId}}&InvoiceDocumentDirection={{direction}}",
+        "description": "E-irsaliye pdf görüntüleme. Public doküman kapsamı: docs/api-referansi.md."
+      }
+    }
+  ]
+}

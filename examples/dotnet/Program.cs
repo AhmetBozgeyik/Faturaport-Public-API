@@ -9,10 +9,12 @@ try
     string Arg(int i) => args.Length > i ? args[i] : throw new ArgumentException($"Eksik argüman: {i}");
     string Env(string key) => Environment.GetEnvironmentVariable(key) is { Length: > 0 } value
         ? value : throw new ArgumentException($"Ortam değişkeni gerekli: {key}");
-    string Id(int i) => Guid.Parse(Arg(i)).ToString();
+    string Id(int i) => Guid.TryParse(Arg(i), out var id) ? id.ToString()
+        : throw new ArgumentException("Geçerli GUID gerekli.");
     int Direction(int i) => Arg(i) switch { "1" => 1, "2" => 2, _ => throw new ArgumentException("Yön 1 veya 2 olmalıdır.") };
     string Side(int i) => Arg(i) switch { "incoming" => "incoming", "outgoing" => "outgoing", _ => throw new ArgumentException("Yön incoming veya outgoing olmalıdır.") };
-    JsonNode Body(int i) => JsonNode.Parse(File.ReadAllText(Arg(i))) ?? throw new ArgumentException("JSON gövdesi boş olamaz.");
+    JsonNode Body(int i) => JsonNode.Parse(File.ReadAllText(Arg(i))) is JsonObject value
+        ? value : throw new ArgumentException("JSON gövdesi nesne olmalıdır.");
     var method = HttpMethod.Get;
     JsonNode? body = null;
     string? output = null;

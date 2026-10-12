@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "unitId": 1,
+      "unitDescription": "Adet",
+      "unitHasDecimal": false
+    },
+    {
+      "unitId": 4,
+      "unitDescription": "Gün",
+      "unitHasDecimal": true
+    },
+    {
+      "unitId": 5,
+      "unitDescription": "Ay",
+      "unitHasDecimal": false
+    }
+  ],
+  "success": true,
+  "message": null
+}

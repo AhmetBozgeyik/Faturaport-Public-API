@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "message": "Oturum başarılı.",
+  "data": {
+    "accessToken": "TOKEN_DEGERI"
+  }
+}

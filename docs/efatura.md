@@ -21,6 +21,7 @@
 
 - `invoiceProfileId`: Örnek `TICARIFATURA`; işleme uygun profili seçin.
 - `invoiceTypeId`: Örnek `Satis`.
+- `draftInvoiceType`: Örnekte `DraftInvoice` ile taslak akışı açıkça seçilir.
 - `invoicePrefixId`: Hesabınızın uygun seri ID'si.
 - `invoiceDate`: Geçerli ISO 8601 tarih/saat.
 - `invoiceOutputType`: `Ubl`, `Html`, `Pdf` veya `Xml`.

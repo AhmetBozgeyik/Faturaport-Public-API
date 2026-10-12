@@ -1,0 +1,26 @@
+{
+  "succeeded": true,
+  "success": true,
+  "message": "Listeleme işlemi başarılı.",
+  "datas": [
+    {
+      "despatchId": "0b33573c-4d4f-4d4e-3344-08dee0d812e4",
+      "despatchDate": "2026-06-16T13:44:37.697",
+      "actualDespatchDate": null,
+      "despatchNumber": "IRS2026000000001",
+      "despatchStatus": "Kabul Edildi",
+      "despatchIncomingInvoiceStatus": 1,
+      "despatchProfile": "TEMELIRSALIYE",
+      "despatchDocumentType": "SEVK",
+      "companyTitle": "ÖRNEK TEST FİRMASI",
+      "isReaded": true,
+      "isPrinted": false
+    }
+  ],
+  "pageNumber": 1,
+  "pageSize": 10,
+  "isFirstPage": true,
+  "isLastPage": true,
+  "totalPages": 1,
+  "totalRecords": 1
+}

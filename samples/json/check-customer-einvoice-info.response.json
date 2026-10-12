@@ -1,0 +1,31 @@
+{
+  "data": {
+    "customerIsEInvoiceAndAliasList": {
+      "isEInvoiceUser": true,
+      "aliasList": [
+        "test@pk.example.com"
+      ]
+    },
+    "prefixList": [
+      {
+        "invoicePrefixId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "prefix": "ABC",
+        "lastUsedNumber": 2025000009999
+      },
+      {
+        "invoicePrefixId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "prefix": "XYZ",
+        "lastUsedNumber": 2025000000018
+      }
+    ],
+    "companyInfo": {
+      "unvan": "ÖRNEK TEST FİRMASI",
+      "vergiDairesiAdi": "Örnek Vergi Dairesi",
+      "adres": "Örnek Mahalle, Örnek Sokak No:1",
+      "ilceAdi": "ŞAHİNBEY",
+      "ilAdi": "GAZİANTEP"
+    }
+  },
+  "success": true,
+  "message": null
+}

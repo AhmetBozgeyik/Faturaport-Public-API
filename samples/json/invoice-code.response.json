@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "invoiceCodeId": 1,
+      "invoiceCodeKey": "KDV_20",
+      "invoiceCodeName": "KDV %20",
+      "invoiceCodeValue": 20,
+      "isStatic": true,
+      "isPercentage": true
+    }
+  ],
+  "success": true,
+  "message": null
+}

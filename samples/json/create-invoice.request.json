@@ -1,0 +1,63 @@
+{
+  "invoiceOutputType": "Html",
+  "invoiceTypeId": "Satis",
+  "invoiceProfileId": "TICARIFATURA",
+  "invoicePrefixId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "refId": "d3b07384-d113-46c1-8409-b632945d8b2c",
+  "invoiceDate": "2025-09-04T13:44:37.697Z",
+  "alias": "test@pk.example.com",
+  "company": {
+    "companyName": "ÖRNEK TEST FİRMASI",
+    "taxNumber": "0000000000",
+    "taxOffice": "Örnek Vergi Dairesi",
+    "address": "Örnek Mahalle, Örnek Sokak No:1",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey",
+    "isAddCompany": false
+  },
+  "isTaxIncludedInPrice": false,
+  "currencyType": "TRY",
+  "currencyRate": 1,
+  "subTotalAmount": 1000,
+  "totalTax": 200,
+  "totalAmount": 1200,
+  "subTotalGrossAmount": 1000,
+  "subTotalDiscountValue": 0,
+  "subTotalDiscountIsPercent": true,
+  "description": "Fatura açıklaması",
+  "returnInvoiceNumber": null,
+  "returnInvoiceDate": null,
+  "lineItems": [
+    {
+      "taxRateType": "KDV_20",
+      "quantity": 1,
+      "unitPrice": 1000,
+      "unitId": 1,
+      "taxAmount": 200,
+      "isDiscountPercent": true,
+      "discountAmount": 0,
+      "discountValue": 0,
+      "subTotal": 1000,
+      "subTotalIncludingDiscount": 1000,
+      "total": 1200,
+      "product": {
+        "productName": "Kalem",
+        "price": 1000
+      },
+      "lineItemTaxes": [
+        {
+          "invoiceCodeId": 0,
+          "lineItemTaxType": "KDV",
+          "isTaxPercent": true,
+          "amount": 200,
+          "percent": 20,
+          "taxableAmount": 1000
+        }
+      ]
+    }
+  ],
+  "orderInfos": [],
+  "despatchInfos": [],
+  "draftInvoiceType": "DraftInvoice"
+}
