@@ -40,6 +40,8 @@ php examples/php/faturaport.php xml outgoing BELGE_GUID output/fatura.xml
 
 `TASLAK_GUID` ve `BELGE_GUID` yerlerine gerçek ID'leri yazın. Bu komutlar otomatik bir işlem zinciri değildir; her adımın sonucunu kontrol ederek ilerleyin. [e-Fatura adımlarının açıklaması](../../docs/efatura.md).
 
+Tevkifat, istisna, özel matrah ve ihraç kayıtlı faturalarda da `create` komutu kullanılır. Dosya seçimi ve değiştirilecek alanlar için [fatura türleri rehberine](../../docs/fatura-turleri.md) bakın.
+
 ## e-İrsaliye ve e-SMM oluşturma
 
 ```bash

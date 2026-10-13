@@ -54,6 +54,9 @@ function validate(value,schema,spec,label) {
   }
 }
 for (const spec of specs) {
+  for (const file of ['tevkifat-invoice.request.json','istisna-invoice.request.json','ozelmatrah-invoice.request.json','ihrackayitli-invoice.request.json']) {
+    validate(JSON.parse(fs.readFileSync(`samples/json/${file}`,'utf8')),spec.components.schemas.CreateInvoiceRequestDTO,spec,file);
+  }
   for (const [file,model] of [['token.request.json','LoginTokenDTO'],['create-invoice.request.json','CreateInvoiceRequestDTO'],['convert-to-einvoice.request.json','ConvertToEInvoiceOpenApiRequestDto'],['add-despatch.request.json','CreateDespatchRequestDTO'],['add-smm-invoice.request.json','CreateSMMInvoiceRequestDTO']]) {
     validate(JSON.parse(fs.readFileSync(`samples/json/${file}`,'utf8')),spec.components.schemas[model],spec,file);
   }

@@ -39,6 +39,8 @@ dotnet run --project examples/dotnet -- pdf outgoing BELGE_GUID output/fatura.pd
 
 Bu komutları sırayla ve aldığınız gerçek ID'leri kullanarak çalıştırın. İşlem açıklamaları için [e-Fatura rehberine](../../docs/efatura.md) bakın.
 
+Tevkifat, istisna, özel matrah ve ihraç kayıtlı faturalar için aynı `create` komutuna [ilgili JSON dosyasını](../../docs/fatura-turleri.md) verin. Bu dosyaların kayıt türünü ve tutarlarını çalıştırmadan önce kontrol edin.
+
 ## e-İrsaliye ve e-SMM örnekleri
 
 ```powershell

@@ -2,6 +2,7 @@
 
 ## 2026-10-13
 
+- Tevkifat, istisna, özel matrah ve ihraç kayıtlı JSON dosyaları için kullanım rehberi ve bağlantılar eklendi. Özel matrah örneğinde kontrol edilmesi gereken tutarlar belirtildi.
 - Güncel Dev ve Canlı API dokümanlarıyla 34 işlem için rehber ve örnekler yenilendi.
 - e-İrsaliye ve e-SMM oluşturma, seri seçimi, taslak ve belge indirme örnekleri eklendi.
 - Başlangıç, ürün ve kod rehberleri adım adım kullanım için yeniden yazıldı.

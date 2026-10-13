@@ -4,6 +4,8 @@ Faturaport fatura oluşturma isteğinde e-Arşiv için `EARSIVFATURA` profili bu
 
 ## e-Arşiv faturası hazırlama
 
+Tevkifat, istisna, özel matrah ve ihraç kayıtlı işlemler için [ayrı JSON örnekleri](fatura-turleri.md) de bulunuyor. Bu dört dosya e-Arşiv profili kullanır ve `draftInvoiceType` alanı `EInvoice` olarak verilmiştir. Aşağıdaki taslak adımlarını izleyecekseniz dosyada bu değeri `DraftInvoice` olarak değiştirin.
+
 1. `check-customer-einvoice-info/{taxnumber}` ile alıcı bilgilerini sorgulayın.
 2. [Fatura JSON örneğinde](../samples/json/create-invoice.request.json) `invoiceProfileId` değerini `EARSIVFATURA` olarak düzenleyin.
 3. Alıcı, tarih, seri ve kalem bilgilerini kendi işleminize göre doldurun.

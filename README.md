@@ -34,6 +34,7 @@ Client ID ve Client Secret bilgilerini ilgili portalda **Ayarlar → API Ayarlar
 
 ## Entegrasyon sırasında ihtiyaç duyabilecekleriniz
 
+- [Fatura türleri: tevkifat, istisna, özel matrah ve ihraç kayıtlı örnekleri](docs/fatura-turleri.md)
 - [API işlem adresleri](docs/api-referansi.md)
 - [JSON alanlarının açıklamaları](docs/veri-alanlari.md)
 - [Sık karşılaşılan hatalar ve çözümleri](docs/sorun-giderme.md)

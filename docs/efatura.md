@@ -47,6 +47,8 @@ POST /api/Invoice/add-invoice
 
 Hazırladığınız JSON'u bu adrese gönderin. Örnekte kullanılan temel alanlar:
 
+Tevkifat, istisna, özel matrah veya ihraç kayıtlı fatura hazırlıyorsanız [fatura türleri ve JSON örnekleri](fatura-turleri.md) sayfasını kullanın. Bu sayfadaki satış örneği taslak oluşturur; diğer dosyalarda kayıt türü farklı olabilir.
+
 | Alan | Açıklama |
 |---|---|
 | `invoiceProfileId` | Örnekte `TICARIFATURA`; faturaya uygun profili seçin |
