@@ -1,0 +1,57 @@
+{
+  "invoiceOutputType": "Html",
+  "invoiceTypeId": "Satis",
+  "invoicePrefixId": "7842a8b8-5f4f-4ccc-ff9c-08df2540ad03",
+  "invoiceDate": "2026-10-12T06:43:29.387Z",
+  "company": {
+    "companyName": "ÖRNEK TEST FİRMASI",
+    "taxNumber": "0000000000",
+    "taxOffice": "Örnek Vergi Dairesi",
+    "address": "Örnek Mahalle, Örnek Sokak No:1",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey",
+    "isAddCompany": false
+  },
+  "isTaxIncludedInPrice": false,
+  "currencyType": "TRY",
+  "currencyRate": 1,
+  "subTotalAmount": 15000,
+  "totalTax": 1500,
+  "totalAmount": 16500,
+  "subTotalGrossAmount": 15000,
+  "subTotalDiscountIsPercent": true,
+  "subTotalDiscountValue": 0,
+  "draftSmmInvoiceType": "DraftInvoice",
+  "description": "Fatura açıklaması",
+  "lineItems": [
+    {
+      "taxRateType": "KDV_10",
+      "quantity": 1,
+      "unitPrice": 15000,
+      "unitId": 1,
+      "taxAmount": 1500,
+      "isDiscountPercent": true,
+      "discountAmount": 0,
+      "discountValue": 0,
+      "subTotal": 15000,
+      "subTotalIncludingDiscount": 15000,
+      "total": 16500,
+      "product": {
+        "productName": "Danışmanlık",
+        "price": 15000
+      },
+      "lineItemTaxes": [
+        {
+          "lineItemTaxType": "KDV",
+          "invoiceCodeId": null,
+          "isTaxPercent": true,
+          "amount": 1500,
+          "percent": 10,
+          "taxableAmount": 15000
+        }
+      ]
+    }
+  ],
+  "alias": null
+}

@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Faturaport Public API V3",
-    "description": "İstekleri ayrı çalıştırın. create/send gövdelerini gerçek hesap bilgilerine uyarlayın. Koleksiyonun tamamını Runner ile çalıştırmayın; gönderim, silme ve iptal işlemleri içerir.",
+    "description": "Önce token alın ve birim listesini sorgulayın. Belge oluşturmadan önce Body bölümündeki bilgileri hesabınıza göre değiştirin. İrsaliye ve e-SMM örnekleri taslak kaydeder. İşlemleri ayrı çalıştırın; koleksiyonda gönderim, silme ve iptal işlemleri de bulunur.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -56,6 +56,11 @@
       "type": "string"
     },
     {
+      "key": "draftDespatchId",
+      "value": "",
+      "type": "string"
+    },
+    {
       "key": "outgoingInvoiceId",
       "value": "",
       "type": "string"
@@ -93,7 +98,7 @@
           }
         ],
         "url": "{{baseUrl}}/api/Invoice/getapitoken",
-        "description": "Token Alma. Public doküman kapsamı: docs/api-referansi.md.",
+        "description": "Token Alma. Kullanım ayrıntıları: docs/api-referansi.md.",
         "body": {
           "mode": "raw",
           "raw": "{\n  \"company_code\": \"{{companyCode}}\",\n  \"client_id\": \"{{clientId}}\",\n  \"client_secret\": \"{{clientSecret}}\"\n}",
@@ -134,7 +139,7 @@
           }
         ],
         "url": "{{baseUrl}}/api/Invoice/add-invoice",
-        "description": "Fatura oluşturma. Public doküman kapsamı: docs/api-referansi.md.",
+        "description": "Fatura oluşturma. Kullanım ayrıntıları: docs/api-referansi.md.",
         "body": {
           "mode": "raw",
           "raw": "{\n  \"invoiceOutputType\": \"Html\",\n  \"invoiceTypeId\": \"Satis\",\n  \"invoiceProfileId\": \"TICARIFATURA\",\n  \"invoicePrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"refId\": \"d3b07384-d113-46c1-8409-b632945d8b2c\",\n  \"invoiceDate\": \"2025-09-04T13:44:37.697Z\",\n  \"alias\": \"test@pk.example.com\",\n  \"company\": {\n    \"companyName\": \"ÖRNEK TEST FİRMASI\",\n    \"taxNumber\": \"0000000000\",\n    \"taxOffice\": \"Örnek Vergi Dairesi\",\n    \"address\": \"Örnek Mahalle, Örnek Sokak No:1\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\",\n    \"isAddCompany\": false\n  },\n  \"isTaxIncludedInPrice\": false,\n  \"currencyType\": \"TRY\",\n  \"currencyRate\": 1,\n  \"subTotalAmount\": 1000,\n  \"totalTax\": 200,\n  \"totalAmount\": 1200,\n  \"subTotalGrossAmount\": 1000,\n  \"subTotalDiscountValue\": 0,\n  \"subTotalDiscountIsPercent\": true,\n  \"description\": \"Fatura açıklaması\",\n  \"returnInvoiceNumber\": null,\n  \"returnInvoiceDate\": null,\n  \"lineItems\": [\n    {\n      \"taxRateType\": \"KDV_20\",\n      \"quantity\": 1,\n      \"unitPrice\": 1000,\n      \"unitId\": 1,\n      \"taxAmount\": 200,\n      \"isDiscountPercent\": true,\n      \"discountAmount\": 0,\n      \"discountValue\": 0,\n      \"subTotal\": 1000,\n      \"subTotalIncludingDiscount\": 1000,\n      \"total\": 1200,\n      \"product\": {\n        \"productName\": \"Kalem\",\n        \"price\": 1000\n      },\n      \"lineItemTaxes\": [\n        {\n          \"invoiceCodeId\": 0,\n          \"lineItemTaxType\": \"KDV\",\n          \"isTaxPercent\": true,\n          \"amount\": 200,\n          \"percent\": 20,\n          \"taxableAmount\": 1000\n        }\n      ]\n    }\n  ],\n  \"orderInfos\": [],\n  \"despatchInfos\": [],\n  \"draftInvoiceType\": \"DraftInvoice\"\n}",
@@ -152,7 +157,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-outgoing-invoice-list?PageNumber=1&PageSize=10",
-        "description": "Giden e-fatura listesi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Giden e-fatura listesi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -161,7 +166,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-invoice-pdf/{{invoiceId}}",
-        "description": "Giden e fatura pdf görüntüleme. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Giden e fatura pdf görüntüleme. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -170,7 +175,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-invoice-xml/{{invoiceId}}",
-        "description": "Giden e fatura ubl (xml). Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Giden e fatura ubl (xml). Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -179,7 +184,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-incoming-invoice-list?PageNumber=1&PageSize=10",
-        "description": "Gelen e-fatura listesi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Gelen e-fatura listesi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -188,7 +193,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-incoming-invoice-pdf/{{invoiceId}}",
-        "description": "Gelen e fatura pdf görüntüleme. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Gelen e fatura pdf görüntüleme. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -197,7 +202,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-incoming-invoice-xml/{{invoiceId}}",
-        "description": "Gelen e fatura ubl (xml). Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Gelen e fatura ubl (xml). Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -206,7 +211,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-draft-invoice-list?PageNumber=1&PageSize=10",
-        "description": "Taslak fatura listesi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Taslak fatura listesi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -215,7 +220,7 @@
         "method": "DELETE",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/delete-draft-invoice/{{draftInvoiceId}}",
-        "description": "Taslak fatura silme. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Taslak fatura silme. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -229,7 +234,7 @@
           }
         ],
         "url": "{{baseUrl}}/api/Invoice/convert-to-einvoice",
-        "description": "Taslak faturayı e-faturaya dönüştürme. Public doküman kapsamı: docs/api-referansi.md.",
+        "description": "Taslak faturayı e-faturaya dönüştürme. Kullanım ayrıntıları: docs/api-referansi.md.",
         "body": {
           "mode": "raw",
           "raw": "{\n  \"invoiceId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"prefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"alias\": \"test@pk.example.com\"\n}",
@@ -252,7 +257,7 @@
           }
         ],
         "url": "{{baseUrl}}/api/Invoice/check-invoice-status",
-        "description": "Fatura durum kontrolü. Public doküman kapsamı: docs/api-referansi.md.",
+        "description": "Fatura durum kontrolü. Kullanım ayrıntıları: docs/api-referansi.md.",
         "body": {
           "mode": "raw",
           "raw": "{\n  \"invoiceId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"invoiceDocumentDirection\": 1\n}",
@@ -270,7 +275,7 @@
         "method": "POST",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/cancel-outgoing-invoice/{{outgoingInvoiceId}}",
-        "description": "Giden e-arşiv faturayı iptal etme. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Giden e-arşiv faturayı iptal etme. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -279,7 +284,7 @@
         "method": "POST",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/check-customer-einvoice-info/{{taxnumber}}",
-        "description": "e-Fatura mükellefiyet, posta kutuları, fatura serisi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "e-Fatura mükellefiyet, posta kutuları, fatura serisi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -288,7 +293,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/invoice-code/{{invoiceType}}",
-        "description": "fatura tipine göre vergi kodu listesi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "fatura tipine göre vergi kodu listesi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -297,7 +302,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/units",
-        "description": "Birim listesi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Birim listesi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -306,7 +311,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-draft-invoice-preview/{{draftInvoiceId}}",
-        "description": "Taslak fatura detayı. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Taslak fatura detayı. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -315,7 +320,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-draft-invoice-preview-by-ref/{{refId}}",
-        "description": "RefId ile taslak fatura detayı. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "RefId ile taslak fatura detayı. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -324,7 +329,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-outgoing-despatch-list?PageNumber=1&PageSize=10",
-        "description": "Giden e-irsaliye listesi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Giden e-irsaliye listesi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -333,7 +338,7 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-incoming-despatch-list?PageNumber=1&PageSize=10",
-        "description": "Gelen e-irsaliye listesi. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "Gelen e-irsaliye listesi. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     },
     {
@@ -342,7 +347,152 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/api/Invoice/get-despatch-pdf?DespatchId={{despatchId}}&InvoiceDocumentDirection={{direction}}",
-        "description": "E-irsaliye pdf görüntüleme. Public doküman kapsamı: docs/api-referansi.md."
+        "description": "E-irsaliye pdf görüntüleme. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "POST E-İrsaliye oluşturma",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/Invoice/add-despatch",
+        "description": "E-İrsaliye oluşturma. Kullanım ayrıntıları: docs/api-referansi.md.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"despatchOutputType\": \"Pdf\",\n  \"despatchProfileId\": \"TEMELIRSALIYE\",\n  \"despatchDocumentTypeId\": \"SEVK\",\n  \"despatchPrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"despatchDate\": \"2026-10-12T10:00:00Z\",\n  \"actualDespatchDate\": \"2026-10-12T10:30:00Z\",\n  \"orderNumber\": \"SIP-2026-001\",\n  \"orderDate\": \"2026-10-12T09:00:00Z\",\n  \"description\": \"İrsaliye açıklaması\",\n  \"company\": {\n    \"companyName\": \"ÖRNEK TEST FİRMASI\",\n    \"taxNumber\": \"0000000000\",\n    \"taxOffice\": \"Örnek Vergi Dairesi\",\n    \"address\": \"Örnek Mahalle, Örnek Sokak No:1\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\",\n    \"isAddCompany\": false\n  },\n  \"deliveryAddress\": \"teslimat adres1\",\n  \"deliveryCity\": \"Gaziantep\",\n  \"deliveryDistrict\": \"Şahinbey\",\n  \"carrier\": {\n    \"carrierTitle\": \"Taşıyıcı Lojistik Ltd.\",\n    \"carrierTaxNumber\": \"0000000000\",\n    \"driverPersonFirstName\": \"Ahmet\",\n    \"driverPersonLastName\": \"Yılmaz\",\n    \"driverPersonTaxNumber\": \"00000000000\",\n    \"licensePlate\": \"27BB123\",\n    \"transportLicensePlate\": \"27DD456\",\n    \"phoneNumber\": \"05551234567\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\"\n  },\n  \"draftDespatchType\": \"DraftInvoice\",\n  \"lineItems\": [\n    {\n      \"quantity\": 10,\n      \"unitId\": 1,\n      \"product\": {\n        \"productName\": \"Ürün 1\",\n        \"price\": 100\n      }\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "GET İrsaliye seri (prefix) listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-despatch-prefix-list",
+        "description": "İrsaliye seri (prefix) listesi. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Taslak irsaliye listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-draft-despatch-list?PageNumber=1&PageSize=10",
+        "description": "Taslak irsaliye listesi. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Taslak irsaliye detayı",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-draft-despatch-preview/{{draftDespatchId}}",
+        "description": "Taslak irsaliye detayı. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "DELETE Taslak irsaliye silme",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/delete-draft-despatch/{{draftDespatchId}}",
+        "description": "Taslak irsaliye silme. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "POST SMM Fatura oluşturma",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/Invoice/add-smm-invoice",
+        "description": "SMM Fatura oluşturma. Kullanım ayrıntıları: docs/api-referansi.md.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"invoiceOutputType\": \"Html\",\n  \"invoiceTypeId\": \"Satis\",\n  \"invoicePrefixId\": \"7842a8b8-5f4f-4ccc-ff9c-08df2540ad03\",\n  \"invoiceDate\": \"2026-10-12T06:43:29.387Z\",\n  \"company\": {\n    \"companyName\": \"ÖRNEK TEST FİRMASI\",\n    \"taxNumber\": \"0000000000\",\n    \"taxOffice\": \"Örnek Vergi Dairesi\",\n    \"address\": \"Örnek Mahalle, Örnek Sokak No:1\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\",\n    \"isAddCompany\": false\n  },\n  \"isTaxIncludedInPrice\": false,\n  \"currencyType\": \"TRY\",\n  \"currencyRate\": 1,\n  \"subTotalAmount\": 15000,\n  \"totalTax\": 1500,\n  \"totalAmount\": 16500,\n  \"subTotalGrossAmount\": 15000,\n  \"subTotalDiscountIsPercent\": true,\n  \"subTotalDiscountValue\": 0,\n  \"draftSmmInvoiceType\": \"DraftInvoice\",\n  \"description\": \"Fatura açıklaması\",\n  \"lineItems\": [\n    {\n      \"taxRateType\": \"KDV_10\",\n      \"quantity\": 1,\n      \"unitPrice\": 15000,\n      \"unitId\": 1,\n      \"taxAmount\": 1500,\n      \"isDiscountPercent\": true,\n      \"discountAmount\": 0,\n      \"discountValue\": 0,\n      \"subTotal\": 15000,\n      \"subTotalIncludingDiscount\": 15000,\n      \"total\": 16500,\n      \"product\": {\n        \"productName\": \"Danışmanlık\",\n        \"price\": 15000\n      },\n      \"lineItemTaxes\": [\n        {\n          \"lineItemTaxType\": \"KDV\",\n          \"invoiceCodeId\": null,\n          \"isTaxPercent\": true,\n          \"amount\": 1500,\n          \"percent\": 10,\n          \"taxableAmount\": 15000\n        }\n      ]\n    }\n  ],\n  \"alias\": null\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "GET Giden e-SMM listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-outgoing-smm-list?PageNumber=1&PageSize=10",
+        "description": "Giden e-SMM listesi. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Taslak SMM listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-draft-smm-list?PageNumber=1&PageSize=10",
+        "description": "Taslak SMM listesi. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Giden e-SMM PDF görüntüleme",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-smm-pdf/{{invoiceId}}",
+        "description": "Giden e-SMM PDF görüntüleme. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Giden e-SMM UBL (XML)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-smm-xml/{{invoiceId}}",
+        "description": "Giden e-SMM UBL (XML). Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET Taslak SMM detayı",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-draft-smm-preview/{{draftInvoiceId}}",
+        "description": "Taslak SMM detayı. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "GET SMM seri (prefix) listesi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/get-smm-prefix-list",
+        "description": "SMM seri (prefix) listesi. Kullanım ayrıntıları: docs/api-referansi.md."
+      }
+    },
+    {
+      "name": "DELETE Taslak SMM silme",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/Invoice/delete-draft-smm/{{draftInvoiceId}}",
+        "description": "Taslak SMM silme. Kullanım ayrıntıları: docs/api-referansi.md."
       }
     }
   ]

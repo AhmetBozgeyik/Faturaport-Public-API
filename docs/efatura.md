@@ -1,63 +1,117 @@
-# e-Fatura API entegrasyonu
+# e-Fatura API entegrasyonu: fatura oluşturma, gönderme ve PDF alma
 
-## 1. Alıcı ve referans bilgilerini alın
+Faturaport API ile e-Fatura göndermek için önce alıcının bilgilerini sorgulayın, faturayı taslak olarak oluşturun ve ardından gönderin. Bu rehberde bir satış faturası üzerinden ilerleyeceğiz. Başlamadan önce [token alma](baslangic.md) adımını tamamlayın.
 
-`POST /api/Invoice/check-customer-einvoice-info/{taxnumber}` (gövdesiz) çağrısında VKN/TCKN değerini URL içinde gönderin.
+Aşağıdaki işlem adresleri test için `https://devapi.faturaport.com` ile başlar. Her istekte `Authorization: Bearer TOKEN_DEGERI` başlığını kullanın.
 
-| Yanıt alanı | Kullanım |
+## 1. Alıcının e-Fatura bilgilerini sorgulayın
+
+Alıcının VKN veya TCKN değerini adresin sonuna yazarak POST isteği gönderin. Bu istekte JSON göndermeniz gerekmez.
+
+```text
+POST /api/Invoice/check-customer-einvoice-info/{taxnumber}
+```
+
+Yanıttan şu bilgileri alın:
+
+| Alan | Ne için kullanılır? |
 |---|---|
-| `data.customerIsEInvoiceAndAliasList.isEInvoiceUser` | Alıcının e-Fatura mükellefiyeti |
-| `data.customerIsEInvoiceAndAliasList.aliasList` | Alıcı posta kutusu (`alias`) seçimi |
-| `data.prefixList[].invoicePrefixId` | Taslakta `invoicePrefixId`, gönderimde `prefixId` |
-| `data.companyInfo` | Alıcı unvan ve adres bilgileri |
+| `data.customerIsEInvoiceAndAliasList.isEInvoiceUser` | Alıcının e-Fatura kullanıcısı olup olmadığını gösterir |
+| `data.customerIsEInvoiceAndAliasList.aliasList` | Faturanın gönderileceği posta kutusunu seçmenizi sağlar |
+| `data.prefixList[].invoicePrefixId` | Faturanın hangi seriyle oluşturulacağını belirtir |
+| `data.companyInfo` | Alıcının unvan, vergi dairesi ve adres bilgilerini verir |
 
-`companyInfo.unvan` → `company.companyName`, `vergiDairesiAdi` → `taxOffice`, `adres` → `address`, `ilAdi` → `city`, `ilceAdi` → `district` şeklinde eşleyin. VKN/TCKN'yi `taxNumber` alanına yazın; ülke bilgisini ayrıca doldurun. Dönen nesneyi alan adlarını dönüştürmeden doğrudan `company` olarak göndermeyin.
+Alıcı e-Fatura kullanıcısı değilse [e-Arşiv rehberine](earsiv.md) bakın. Birden fazla seri veya posta kutusu dönüyorsa işlem için uygun olanı seçin.
 
-`GET /api/Invoice/units` ile gerçek `unitId` değerini alın. İhtiyaç duyulan vergi kodlarını `GET /api/Invoice/invoice-code/Satis` ile sorgulayın. Sabit örnek seri, birim, vergi kodu ve posta kutusu değerlerini hesabınızdan alınan değerlerle değiştirin.
+## 2. Faturanın alıcı ve kalem bilgilerini hazırlayın
 
-## 2. Taslak oluşturun
+[Örnek fatura JSON'unu](../samples/json/create-invoice.request.json) açın. `company` bölümünü sorgudan gelen bilgilerle doldurun:
 
-`POST /api/Invoice/add-invoice` için [taslak JSON şablonunu](../samples/json/create-invoice.request.json) uyarlayın. Bu endpointin açıklaması **taslak oluşturma** olarak verilmiştir; yanıt alınması belgenin gönderildiğini göstermez.
+| Sorgudan gelen bilgi | Faturaya yazacağınız alan |
+|---|---|
+| `companyInfo.unvan` | `company.companyName` |
+| `companyInfo.vergiDairesiAdi` | `company.taxOffice` |
+| `companyInfo.adres` | `company.address` |
+| `companyInfo.ilAdi` | `company.city` |
+| `companyInfo.ilceAdi` | `company.district` |
 
-- `invoiceProfileId`: Örnek `TICARIFATURA`; işleme uygun profili seçin.
-- `invoiceTypeId`: Örnek `Satis`.
-- `draftInvoiceType`: Örnekte `DraftInvoice` ile taslak akışı açıkça seçilir.
-- `invoicePrefixId`: Hesabınızın uygun seri ID'si.
-- `invoiceDate`: Geçerli ISO 8601 tarih/saat.
-- `invoiceOutputType`: `Ubl`, `Html`, `Pdf` veya `Xml`.
-- `refId`: İsteğe bağlı GUID dış referansı. Public doküman bu alan için idempotency garantisi vermez.
-- Örnekte 1 × 1000 TRY, 200 TRY vergi ve 1200 TRY toplam kullanılır. Tutarları kendi kalemlerinizle tutarlı hesaplayın.
+Alıcının VKN/TCKN değerini `company.taxNumber`, ülkesini `company.country` alanına yazın.
 
-Başarılı yanıtın **üst seviyesindeki `invoiceId`** taslak ID'sidir. `data` alanı seçilen çıktı formatına ait içeriktir.
+Kalemlerdeki `unitId` için `GET /api/Invoice/units` listesinden uygun birimi seçin. Vergi kodu gerekiyorsa `GET /api/Invoice/invoice-code/Satis` listesini kullanın. Örnekteki birim ve vergi kodunu hesabınızdan aldığınız değerlerle değiştirin.
 
-## 3. Taslağı kontrol edin ve gönderin
+## 3. Faturayı taslak olarak oluşturun
 
-`GET /api/Invoice/get-draft-invoice-preview/{draftInvoiceId}` ile taslağı kontrol edin. RefId kullanıldıysa `GET /api/Invoice/get-draft-invoice-preview-by-ref/{refId}` çağrılabilir.
-
-Gönderim için `POST /api/Invoice/convert-to-einvoice`:
-
-```json
-{
-  "invoiceId": "TASLAK_ID",
-  "prefixId": "SERI_ID",
-  "alias": "ALICININ_POSTA_KUTUSU"
-}
+```text
+POST /api/Invoice/add-invoice
 ```
 
-Bu örnekteki ID alanlarına gerçek GUID değerleri yazılmalıdır. Örnek istemciler gönderimi otomatik yapmaz; `send` komutuyla ayrı çağırın. Başarılı dönüşüm yanıtı nihai belge kabul durumu yerine geçmez.
+Hazırladığınız JSON'u bu adrese gönderin. Örnekte kullanılan temel alanlar:
 
-## 4. Durum ve belgeyi alın
+| Alan | Açıklama |
+|---|---|
+| `invoiceProfileId` | Örnekte `TICARIFATURA`; faturaya uygun profili seçin |
+| `invoiceTypeId` | Satış faturası için `Satis` |
+| `draftInvoiceType` | Örnekte `DraftInvoice`, yani taslak |
+| `invoicePrefixId` | İlk adımda seçtiğiniz seri ID'si |
+| `alias` | Alıcının seçtiğiniz posta kutusu |
+| `invoiceDate` | Fatura tarihi; örneğin `2026-10-13T10:00:00Z` |
+| `invoiceOutputType` | Yanıtta istediğiniz belge biçimi: `Pdf`, `Html`, `Xml` veya `Ubl` |
 
-`POST /api/Invoice/check-invoice-status` gövdesi, dokümandaki örneğe göre:
+Örnek dosyada 1 adet ürün, 1000 TL tutar, 200 TL vergi ve 1200 TL toplam bulunur. Kendi ürünlerinizi yazarken hem kalem tutarlarını hem fatura toplamlarını güncelleyin.
 
-```json
-{ "invoiceId": "BELGE_ID", "invoiceDocumentDirection": 1 }
+Başarılı yanıtta `invoiceId` döner. Bu değeri kaydedin; taslağı görüntülerken ve gönderirken kullanacaksınız. Bu aşamada fatura henüz gönderilmiş değildir.
+
+## 4. Taslağı kontrol edin ve gönderin
+
+Önce taslağı görüntüleyin:
+
+```text
+GET /api/Invoice/get-draft-invoice-preview/{draftInvoiceId}
 ```
 
-`1` giden, `2` gelen yönüdür. Şemanın string yön tanımı ile örnek arasındaki fark için [sorun giderme](sorun-giderme.md) bölümünü okuyun. Gönderim sonrası belge ID'sini giden listeden doğrulayın; dönüşüm yanıtında yeni bir ID alanı belgelenmemiştir.
+Alıcı, tarih, ürün ve tutarlar doğruysa aşağıdaki adrese POST isteği gönderin:
 
-Giden belgeler: `GET /api/Invoice/get-outgoing-invoice-list?PageNumber=1&PageSize=10`. Gelen belgeler: `GET /api/Invoice/get-incoming-invoice-list?PageNumber=1&PageSize=10`.
+```text
+POST /api/Invoice/convert-to-einvoice
+```
 
-PDF: `GET /api/Invoice/get-invoice-pdf/{invoiceId}`. XML: `GET /api/Invoice/get-invoice-xml/{invoiceId}`. Gelen belge için `get-incoming-invoice-pdf` ve `get-incoming-invoice-xml` kullanılır. Yanıtın `data` alanındaki Base64 içeriği çözerek dosyaya yazın. [.NET ve PHP komutları](../README.md) bunu destekler.
+[Gönderim JSON'unda](../samples/json/convert-to-einvoice.request.json) üç bilgiyi değiştirin:
 
-Liste çağrılarında `datas`, `pageNumber`, `totalPages`, `totalRecords` alanları vardır. Tarih filtresi `StartDate`/`EndDate`, arama filtresi `Search` şeklindedir. Sayfaları `totalPages` değerine göre ilerletin; tarih sınırlarının dahil olma davranışı public dokümanda açıklanmamıştır.
+- `invoiceId`: Oluşturduğunuz taslağın ID'si.
+- `prefixId`: İlk adımda seçtiğiniz seri ID'si.
+- `alias`: Alıcının posta kutusu.
+
+Bu işlemden gelen başarı mesajı, faturanın son durumunu tek başına göstermez. Sonraki adımda durumunu kontrol edin.
+
+## 5. Faturanın durumunu sorgulayın
+
+```text
+POST /api/Invoice/check-invoice-status
+```
+
+[Durum sorgusu JSON'unda](../samples/json/check-invoice-status.request.json) `invoiceId` alanını belge ID'siyle değiştirin. Dokümandaki örnekte `invoiceDocumentDirection: 1` giden, `2` gelen fatura için kullanılır. Bu alanda hata alırsanız [yön bilgisi açıklamasına](sorun-giderme.md) bakın.
+
+Gönderdiğiniz faturayı giden listede de kontrol edebilirsiniz:
+
+```text
+GET /api/Invoice/get-outgoing-invoice-list?PageNumber=1&PageSize=10
+```
+
+Listeden dönen `invoiceId`, belge indirme işlemlerinde kullanılır. Gelen faturalar için `get-incoming-invoice-list` adresini kullanın.
+
+## 6. PDF veya XML indirin
+
+```text
+GET /api/Invoice/get-invoice-pdf/{invoiceId}
+GET /api/Invoice/get-invoice-xml/{invoiceId}
+```
+
+Yanıtın `data` alanı dosyanın Base64 ile kodlanmış içeriğidir. Bu metni çözüp dosyaya kaydetmeniz gerekir. [.NET](../examples/dotnet/README.md) ve [PHP](../examples/php/README.md) örneklerindeki `pdf` ve `xml` komutları bunu sizin için yapar.
+
+Gelen faturaları indirmek için `get-incoming-invoice-pdf` ve `get-incoming-invoice-xml` adreslerini kullanın.
+
+## Birden fazla sayfa varsa
+
+Liste sonuçları `datas` içinde gelir. `totalPages` toplam sayfa sayısını verir. `PageNumber` değerini artırarak diğer sayfaları alın. Tarih aralığı için `StartDate` ve `EndDate`, arama için `Search` ekleyebilirsiniz.
+
+Kendi sisteminizde faturayı takip etmek istiyorsanız oluştururken `refId` alanına bir GUID yazabilirsiniz. Bu değerle `get-draft-invoice-preview-by-ref/{refId}` üzerinden taslağı bulabilirsiniz. Aynı `refId` ile tekrar istek göndermenin ikinci faturayı engellediği belgelenmediğinden, yanıt alamadığınızda önce mevcut taslağı kontrol edin.

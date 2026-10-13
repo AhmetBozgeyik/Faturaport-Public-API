@@ -1,12 +1,24 @@
-# e-Arşiv API kapsamı
+# e-Arşiv API kullanımı: fatura hazırlama ve iptal işlemi
 
-Public şemada `InvoiceProfile` içinde `EARSIVFATURA` bulunur. Ortak taslak modeli ve mükellef sorgusu için [e-Fatura rehberini](efatura.md) kullanabilirsiniz. Ancak public doküman e-Arşiv gönderiminde alias, seri ve dönüştürme davranışını ayrı bir akışla açıklamıyor. Canlı kullanım öncesinde bu akışı test hesabında doğrulayın; e-Fatura gönderim kurallarını e-Arşiv için otomatik varsaymayın.
+Faturaport fatura oluşturma isteğinde e-Arşiv için `EARSIVFATURA` profili bulunur. Fatura bilgilerini hazırlarken [e-Fatura rehberindeki](efatura.md) alıcı, birim, vergi ve kalem adımlarını kullanabilirsiniz.
 
-Belgelenen iptal işlemi:
+## e-Arşiv faturası hazırlama
+
+1. `check-customer-einvoice-info/{taxnumber}` ile alıcı bilgilerini sorgulayın.
+2. [Fatura JSON örneğinde](../samples/json/create-invoice.request.json) `invoiceProfileId` değerini `EARSIVFATURA` olarak düzenleyin.
+3. Alıcı, tarih, seri ve kalem bilgilerini kendi işleminize göre doldurun.
+4. `POST /api/Invoice/add-invoice` ile taslak oluşturun.
+
+API dokümanı e-Arşiv için gönderimde hangi seri ve posta kutusu bilgileriyle ilerlenmesi gerektiğini ayrı olarak açıklamıyor. Canlı kullanım öncesinde bu adımı test hesabınızla ve destek ekibiyle netleştirin.
+
+## Gönderilmiş e-Arşiv faturasını iptal etme
+
+İptal edilecek faturanın ID'sini aşağıdaki adresin sonuna yazın:
 
 ```text
 POST /api/Invoice/cancel-outgoing-invoice/{outgoingInvoiceId}
-Authorization: Bearer TOKEN
 ```
 
-İstek gövdesi belgelenmemiştir. Bu endpoint **giden e-Arşiv faturayı iptal etmek** için açıklanmıştır; genel e-Fatura iptal endpointi olarak kullanmayın. Belgeyi ve ortamı kontrol ederek çağırın. İptal koşulları/süreleri public API dokümanında verilmemiştir; destekten doğrulayın.
+`Authorization: Bearer TOKEN_DEGERI` başlığını ekleyin. Bu istek için JSON gönderilmesi belgelenmemiştir. Başarılı yanıtta `success: true` ve işlem mesajı döner.
+
+Bu işlem giden **e-Arşiv faturası** için tanımlıdır. e-Fatura veya e-SMM iptali için kullanmayın. İptal koşullarını ve sürelerini destek ekibinden öğrenebilirsiniz.

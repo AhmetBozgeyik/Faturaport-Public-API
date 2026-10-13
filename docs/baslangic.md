@@ -1,32 +1,30 @@
-# Başlangıç ve kimlik doğrulama
+# Faturaport API bağlantısı: test hesabı açma ve token alma
 
-Test hesabını https://test.faturaport.com adresinde açın. **Ayarlar → API Ayarları** bölümünden Client ID ve Client Secret oluşturun. Token modelinde ayrıca `company_code` (firma kodu) bulunur. Firma kodunu portal hesabınızdan temin edin; görünmüyorsa destek@faturaport.com ile görüşün.
+Faturaport API'yi kullanmak için önce bir hesap açmanız ve bu hesaba ait API bilgilerini almanız gerekir. İlk denemeyi test ortamında yapabilirsiniz.
 
-## Yapılandırma
+## 1. Test hesabınızı açın
 
-PowerShell:
+[test.faturaport.com](https://test.faturaport.com) üzerinden hesap oluşturun. Giriş yaptıktan sonra **Ayarlar → API Ayarları** bölümünü açın ve Client ID ile Client Secret oluşturun.
 
-```powershell
-$env:FATURAPORT_BASE_URL = 'https://devapi.faturaport.com'
-$env:FATURAPORT_COMPANY_CODE = 'FIRMA_KODUNUZ'
-$env:FATURAPORT_CLIENT_ID = 'CLIENT_ID_DEGERINIZ'
-$env:FATURAPORT_CLIENT_SECRET = 'CLIENT_SECRET_DEGERINIZ'
+Bağlantı için üç bilgi kullanılır:
+
+| Bilgi | API'de kullanılan alan | Açıklama |
+|---|---|---|
+| Firma kodu | `company_code` | İşlem yapacağınız hesabın firma kodu |
+| Client ID | `client_id` | API Ayarları bölümünde oluşturduğunuz kimlik |
+| Client Secret | `client_secret` | Aynı bölümde oluşturduğunuz gizli anahtar |
+
+Firma kodunuzu portal hesabınızdan alın. Bulamıyorsanız destek@faturaport.com adresinden yardım isteyin.
+
+## 2. Token alın
+
+Token, sonraki API isteklerinde hesabınızı tanıtan geçici erişim anahtarıdır. Şu adrese POST isteği gönderin:
+
+```text
+https://devapi.faturaport.com/api/Invoice/getapitoken
 ```
 
-Bash:
-
-```bash
-export FATURAPORT_BASE_URL='https://devapi.faturaport.com'
-export FATURAPORT_COMPANY_CODE='FIRMA_KODUNUZ'
-export FATURAPORT_CLIENT_ID='CLIENT_ID_DEGERINIZ'
-export FATURAPORT_CLIENT_SECRET='CLIENT_SECRET_DEGERINIZ'
-```
-
-`.env.example` yapılandırma isimlerini gösterir. Örnek programlar `.env` dosyasını otomatik yüklemez; ortam değişkenlerini yukarıdaki gibi tanımlayın.
-
-## Token alma
-
-`POST /api/Invoice/getapitoken`, `Content-Type: application/json`:
+İsteğin başlığı `Content-Type: application/json` olmalı. Aşağıdaki değerleri kendi bilgilerinizle değiştirin:
 
 ```json
 {
@@ -36,7 +34,7 @@ export FATURAPORT_CLIENT_SECRET='CLIENT_SECRET_DEGERINIZ'
 }
 ```
 
-Başarılı yanıtın token alanı **`data.accessToken`** değeridir. Dokümandaki `access_token` ifadesi header kullanımını anlatır; yanıt alanının adı değildir.
+Başarılı yanıtta token `data.accessToken` alanında döner:
 
 ```json
 {
@@ -46,6 +44,42 @@ Başarılı yanıtın token alanı **`data.accessToken`** değeridir. Dokümanda
 }
 ```
 
-Diğer isteklerde `Authorization: Bearer TOKEN_DEGERI` gönderin. Hem HTTP durumunu hem `success`/`succeeded` alanlarını kontrol edin. Token süresini sabit varsaymayın; public dokümanda refresh endpointi bulunmuyor. 401 durumunda erişim bilgilerini ve token geçerliliğini kontrol edin.
+## 3. İlk isteğinizi gönderin
 
-İlk doğrulama için `GET /api/Invoice/units` kullanın. Bu istek belge oluşturmaz. Örnekler tokenı ekrana yazdırmaz ve işleme özel yanıtı gösterir.
+Birim listesini almak için aşağıdaki adrese GET isteği gönderin. Bu işlem belge oluşturmaz:
+
+```text
+https://devapi.faturaport.com/api/Invoice/units
+```
+
+İsteğin başlığına aldığınız tokenı ekleyin:
+
+```text
+Authorization: Bearer TOKEN_DEGERI
+```
+
+Liste geliyorsa API bağlantınız kurulmuştur. Artık [e-Fatura](efatura.md), [e-İrsaliye](eirsaliye.md) veya [e-SMM](esmm.md) rehberine geçebilirsiniz. Hata alıyorsanız [hata çözümlerini](sorun-giderme.md) kontrol edin.
+
+## Hazır kod örneklerini nasıl çalıştırırım?
+
+Örnekler API bilgilerini bilgisayarınızda tanımladığınız ortam değişkenlerinden okur. Böylece bu bilgileri kod dosyasına yazmanız gerekmez.
+
+PowerShell kullanıyorsanız:
+
+```powershell
+$env:FATURAPORT_BASE_URL = 'https://devapi.faturaport.com'
+$env:FATURAPORT_COMPANY_CODE = 'FIRMA_KODUNUZ'
+$env:FATURAPORT_CLIENT_ID = 'CLIENT_ID_DEGERINIZ'
+$env:FATURAPORT_CLIENT_SECRET = 'CLIENT_SECRET_DEGERINIZ'
+```
+
+Bash kullanıyorsanız:
+
+```bash
+export FATURAPORT_BASE_URL='https://devapi.faturaport.com'
+export FATURAPORT_COMPANY_CODE='FIRMA_KODUNUZ'
+export FATURAPORT_CLIENT_ID='CLIENT_ID_DEGERINIZ'
+export FATURAPORT_CLIENT_SECRET='CLIENT_SECRET_DEGERINIZ'
+```
+
+Ardından aynı terminalde [.NET](../examples/dotnet/README.md), [PHP](../examples/php/README.md) veya [cURL](../examples/curl/README.md) örneğini çalıştırın. `.env.example` dosyası gereken bilgilerin listesidir; kod örnekleri `.env` dosyasını kendiliğinden okumaz.

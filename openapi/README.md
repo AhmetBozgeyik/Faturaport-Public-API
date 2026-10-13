@@ -1,8 +1,10 @@
-# OpenAPI kaynakları
+# Faturaport API tanım dosyaları
 
-- [Dev şeması](dev.json): https://devapi.faturaport.com/swagger/public/swagger.json
-- [Canlı şeması](prod.json): https://prodapi.faturaport.com/swagger/public/swagger.json
+Bu dosyalar, API işlem adreslerini ve gönderilecek/alınacak alanları içerir:
 
-12 Ekim 2026 tarihinde public kaynaklardan alındı. Dosyalar public endpointlerin doğrudan veya dolaylı kullandığı 46 modele indirgenmiştir; ilgisiz portal modelleri çıkarılmıştır. Endpoint ve kullanılan model tanımları kaynak dokümandaki haliyle korunmuştur. Kaynak açıklamalarında dokümanın yayımladığı örnek firma bilgileri bulunabilir; gerçek entegrasyonda hesabınızın bilgilerini kullanın.
+- [Test dosyası](dev.json): https://devapi.faturaport.com/swagger/public/swagger.json
+- [Canlı dosyası](prod.json): https://prodapi.faturaport.com/swagger/public/swagger.json
 
-Şema ile açıklamaların çeliştiği yerler için [sorun giderme](../docs/sorun-giderme.md) rehberini okuyun. API hesabıyla test edilmeden sözleşme farklılıkları kesinleştirilmiş sayılmaz.
+Dosyalar 13 Ekim 2026 tarihinde güncellendi. Repoda 34 işlemin kullandığı 61 veri tanımı tutulur; bu işlemlerle ilgisi olmayan portal tanımları çıkarılır. Kaynaktaki işlem ve alan açıklamaları korunur.
+
+Entegrasyona başlamak için [hesap ve bağlantı rehberini](../docs/baslangic.md) kullanın. Adres arıyorsanız [API işlem listesine](../docs/api-referansi.md), alan açıklaması arıyorsanız [JSON alanlarına](../docs/veri-alanlari.md) bakın.

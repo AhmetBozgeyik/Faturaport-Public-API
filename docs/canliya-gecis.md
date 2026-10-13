@@ -1,10 +1,27 @@
-# Canlıya geçiş
+# Faturaport API: test ortamından Canlıya geçiş
 
-1. Dev ortamında token, referans sorguları, taslak, gönderim, durum ve belge indirme adımlarını kendi hesabınızla doğrulayın.
-2. https://portal.faturaport.com üzerinden **Ayarlar → API Ayarları** bölümünde Canlı erişim bilgilerinizi oluşturun; firma kodunu hazırlayın.
-3. `FATURAPORT_BASE_URL=https://prodapi.faturaport.com` ayarlayın ve Canlı erişim bilgilerini kullanın.
-4. Canlı ortamda seri, posta kutusu, birim ve vergi kodlarını yeniden sorgulayın. Dev belge/seri ID'lerini taşımayın.
-5. Önce `units` gibi bir sorguyla kimlik doğrulamayı kontrol edin. Belge oluşturma ve gönderimi uygulamanızın kontrollü akışıyla başlatın.
-6. Gönderim sonrasında işlem durumunu izleyin ve PDF/XML çıktısını kontrol edin.
+Test hesabınızda bağlantıyı kurup kullanacağınız belge işlemlerini denedikten sonra Canlı API'ye geçebilirsiniz. Canlı ortam için ayrıca API erişim bilgileri oluşturmanız gerekir.
 
-Client Secret yalnızca sunucu tarafında tutulmalıdır. Public repo, tarayıcı kodu veya uygulama loglarına eklemeyin. Örneklerdeki UUID, tarih, firma ve posta kutusu değerlerini Canlıya aynen taşımayın.
+## 1. Canlı API bilgilerinizi alın
+
+[portal.faturaport.com](https://portal.faturaport.com) hesabınıza giriş yapın. **Ayarlar → API Ayarları** bölümünden Client ID ve Client Secret oluşturun. Aynı hesabın firma kodunu da hazırlayın.
+
+## 2. API adresini değiştirin
+
+Hazır örneklerde `FATURAPORT_BASE_URL` değerini şu adresle değiştirin:
+
+```text
+https://prodapi.faturaport.com
+```
+
+Firma kodu, Client ID ve Client Secret değerlerini Canlı hesabınıza ait bilgilerle güncelleyin. Yeni token alın ve önce birim listesi gibi bir sorguyla bağlantıyı kontrol edin.
+
+## 3. Belge bilgilerini Canlı hesaptan alın
+
+Fatura serisini, irsaliye serisini, e-SMM serisini, posta kutusunu ve gereken birim/vergi kodlarını Canlı API'den sorgulayın. Test hesabına ait seri ve belge ID'leriyle devam etmeyin.
+
+## 4. Gönderimi kontrol edin
+
+Belge oluşturmadan önce alıcı, tarih, tutar ve seçilen kayıt türünü kontrol edin. e-İrsaliyede `EInvoice`, e-SMM'de `Invoice` değeri doğrudan gönderim yapar. İşlem sonrasında giden belge listesini ve PDF/XML çıktısını kontrol edin.
+
+Client Secret bilgisini yalnızca sunucunuzda tutun. GitHub'a, tarayıcıda çalışan kodlara veya uygulama loglarına yazmayın.

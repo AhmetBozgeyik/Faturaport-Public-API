@@ -2,7 +2,7 @@
   "openapi": "3.0.4",
   "info": {
     "title": "Faturaport - API V3",
-    "description": "# GİRİŞ\n ## API Hakkında\n\nFaturaport API'yi kullanmak veya görüşlerinizi paylaşmak isterseniz lütfen bizimle destek@faturaport.com adresi üzerinden iletişime geçebilirsiniz.\n\nAPI'yi kullanarak Faturaport'ta bulunan verilerinize erişebilir ve kendi yazdığınız uygulamalar/projeler ile entegre edebilirsiniz. API vasıtasıyla Faturaport arayüzü ile yapılan fatura işlemlerini gerçekleştirebilirsiniz.\n## Genel Bilgiler\n- API metodlarına erişmek için temel URL olarak `https://prodapi.faturaport.com` adresi kullanılmalıdır.\n- API endpointlerinde kullanmak için aldığınız `accessToken` değerini sorgulara `Authorization` header'ı olarak `Bearer access_token` şeklinde göndermeniz gerekmektedir.",
+    "description": "# GİRİŞ\n ## API Hakkında\n\nFaturaport API'yi kullanmak veya görüşlerinizi paylaşmak isterseniz lütfen bizimle destek@faturaport.com adresi üzerinden iletişime geçebilirsiniz.\n\nAPI'yi kullanarak Faturaport'ta bulunan verilerinize erişebilir ve kendi yazdığınız uygulamalar/projeler ile entegre edebilirsiniz. API vasıtasıyla Faturaport arayüzü ile yapılan fatura işlemlerini gerçekleştirebilirsiniz.\n## Genel Bilgiler\n- API metodlarına erişmek için temel URL olarak `https://prodapi.faturaport.com` adresi kullanılmalıdır.\n- API endpointlerinde kullanmak için aldığınız `accessToken` değerini sorgulara `Authorization` header'ı olarak `Bearer access_token` şeklinde göndermeniz gerekmektedir.\n- API endpointlerinde kullanılan token geçerlilik süresi 180 dakikadır.",
     "version": "V3.0.0",
     "x-logo": {
       "url": "https://faturaport.com/assets/images/faturaport-logo.svg",
@@ -14,7 +14,7 @@
     "/api/Invoice/getapitoken": {
       "post": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Token Alma",
         "description": "- Bu metot API kullanımında kullanılacak Token değerini almak için kullanılır.\n## Genel Bilgiler\n- API endpointlerine ulaşmak için, aldığınız `access_token`'ı sorgulara `Authorization` header'ı olarak `Bearer access_token` şeklinde göndermelisiniz.",
@@ -54,7 +54,7 @@
     "/api/Invoice/add-invoice": {
       "post": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Fatura oluşturma",
         "description": "Bu metot yeni bir taslak fatura oluşturmak için kullanılır.\n\n### Fatura Oluşturma Kuralları:\n- **invoiceOutputType**: Oluşturulan faturanın response (yanıt) içindeki değerini hangi formatta almak istediğinizi belirtir. `Ubl`, `Html`, `Pdf` veya `Xml` değerlerinden biri gönderilmelidir.\n- **invoicePrefixId**: Bu değer, `api/Invoice/check-customer-einvoice-info/{taxnumber}` endpoint'inden dönen `prefixList` dizisi içerisindeki `invoicePrefixId` değerlerinden kullanılmak istenen biri seçilerek doldurulmalıdır.\n- **company**: Nesne (object) içindeki bilgiler, yine `api/Invoice/check-customer-einvoice-info/{taxnumber}` endpoint'inden dönen `companyInfo` bilgilerinden alınarak doldurulmalıdır.\n- **unitId**: Bu değer için `/api/Invoice/units` endpoint'inden dönen birim listesindeki uygun ID değeri kullanılmalıdır.\n- **refId**: Entegrasyon veya dış sistem referans ID değeri. İsteğe bağlıdır (GUID formatında gönderilmelidir, örn. `d3b07384-d113-46c1-8409-b632945d8b2c`).\n\n- Örnek Request\n```json\n{\n  \"invoiceOutputType\": \"Html\",\n  \"invoiceTypeId\": \"Satis\",\n  \"invoiceProfileId\": \"TICARIFATURA\",\n  \"invoicePrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"refId\": \"d3b07384-d113-46c1-8409-b632945d8b2c\",\n  \"invoiceDate\": \"2025-09-04T13:44:37.697Z\",\n  \"alias\": \"defaultpk@pk.com\",\n  \"company\": {\n    \"companyName\": \"PERASİS BİLİŞİM TEKNOLOJİLERİ LTD. ŞTİ.\",\n    \"taxNumber\": \"7280366942\",\n    \"taxOffice\": \"ŞAHİNBEY\",\n    \"address\": \"Gaziantep Üniversitesi Teknopark C Blok No:207-208\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\":\"Şahinbey\",\n    \"isAddCompany\": false\n  },\n\n \"isTaxIncludedInPrice\": false,\n \"currencyType\": \"TRY\",\n \"currencyRate\": 1,\n \"subTotalAmount\": 1000,\n \"totalTax\": 200,\n \"totalAmount\": 1200,\n  \"subTotalGrossAmount\": 0,\n   \"subTotalDiscountValue\": 0,\n   \"subTotalDiscountIsPercent\": true,\n    \"description\": \"Fatura açıklaması\",\n    \"returnInvoiceNumber\": \"İade Faturası Numarası\",\n    \"returnInvoiceDate\": \"İade faturası tarihi\",\n    \"lineItems\": [\n      {\n        \"taxRateType\": \"KDV_20\",\n        \"quantity\": 1,\n        \"unitPrice\": 1000,\n        \"unitId\": 1,\n        \"taxAmount\": 200,\n        \"isDiscountPercent\": true,\n        \"discountAmount\": 0,\n        \"discountValue\": 0,\n        \"subTotal\": 1000,\n        \"subTotalIncludingDiscount\": 1000,\n        \"total\": 1200,\n        \"product\": {\n          \"productName\": \"Kalem\",\n          \"price\": 1000\n        },\n        \"lineItemTaxes\": [\n          {\n            \"invoiceCodeId\": 0,\n            \"lineItemTaxType\": \"KDV\",\n            \"isTaxPercent\": true,\n            \"amount\": 200,\n            \"percent\": 20,\n            \"taxableAmount\": 1000\n          }\n        ]\n      }\n    ],\n    \"orderInfos\": [\n      {\n        \"additionalInfoDate\": \"2025-09-04T13:44:37.697Z\",\n        \"additionalInfoValue\": \"string\"\n      }\n    ],\n    \"despatchInfos\": [\n      {\n        \"additionalInfoDate\": \"2025-09-04T13:44:37.697Z\",\n        \"additionalInfoValue\": \"string\"\n      }\n    ]\n  }   \n```",
@@ -100,7 +100,7 @@
     "/api/Invoice/get-outgoing-invoice-list": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Giden e-fatura listesi",
         "description": "Bu metot giden e-fatura listesini filtreleyerek getirmek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-outgoing-invoice-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
@@ -182,7 +182,7 @@
     "/api/Invoice/get-invoice-pdf/{invoiceId}": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Giden e fatura pdf görüntüleme",
         "description": "Bu metot giden faturayı PDF formatında (Base64 olarak) almak için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-invoice-pdf/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -244,7 +244,7 @@
     "/api/Invoice/get-invoice-xml/{invoiceId}": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Giden e fatura ubl (xml)",
         "description": "Bu metot giden faturayı UBL XML formatında ((Base64 olarak)) almak için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-invoice-xml/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -306,7 +306,7 @@
     "/api/Invoice/get-incoming-invoice-list": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Gelen e-fatura listesi",
         "description": "Bu metot gelen e-fatura listesini filtreleyerek getirmek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-incoming-invoice-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
@@ -388,7 +388,7 @@
     "/api/Invoice/get-incoming-invoice-pdf/{invoiceId}": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Gelen e fatura pdf görüntüleme",
         "description": "Bu metot gelen faturayı PDF formatında (Base64 olarak) almak için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-incoming-invoice-pdf/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -450,7 +450,7 @@
     "/api/Invoice/get-incoming-invoice-xml/{invoiceId}": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Gelen e fatura ubl (xml)",
         "description": "Bu metot gelen faturayı UBL XML formatında ((Base64 olarak)) almak için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-invoice-xml/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -512,7 +512,7 @@
     "/api/Invoice/get-draft-invoice-list": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Taslak fatura listesi",
         "description": "Bu metot taslak faturaları sayfalanmış şekilde listelemek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-draft-invoice-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
@@ -602,7 +602,7 @@
     "/api/Invoice/delete-draft-invoice/{draftInvoiceId}": {
       "delete": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Taslak fatura silme",
         "description": "Bu metot belirtilen taslak faturayı silmek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/delete-draft-invoice/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -664,7 +664,7 @@
     "/api/Invoice/convert-to-einvoice": {
       "post": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Taslak faturayı e-faturaya dönüştürme",
         "description": "Bu metot taslak faturayı e-faturaya dönüştürmek için kullanılır.\n- **invoiceId**: Dönüştürülecek taslak faturanın ID değeri.\n- **prefixId**: Kullanılacak fatura serisi ID değeri. `api/Invoice/check-customer-einvoice-info/{taxnumber}` endpoint'inden dönen `prefixList` içindeki `invoicePrefixId` değerlerinden biri kullanılmalıdır.\n- **alias**: Alıcı posta kutusu adresi. Yine aynı endpoint'ten dönen `aliasList` içinden seçilmelidir.\n- Örnek Request\n```json\n{\n  \"invoiceId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"prefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"alias\": \"defaultpk@pk.com\"\n}\n```",
@@ -724,7 +724,7 @@
     "/api/Invoice/check-invoice-status": {
       "post": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Fatura durum kontrolü",
         "description": "Bu metot gelen veya giden faturanın güncel durumunu sorgulamak için kullanılır.\n- **invoiceId**: Durumu sorgulanacak faturanın ID değeri.\n- **invoiceDocumentDirection**: Fatura yönü. `1` = Giden (Outgoing), `2` = Gelen (Incoming).\n- Örnek Request\n```json\n{\n  \"invoiceId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"invoiceDocumentDirection\": 1\n}\n```",
@@ -774,7 +774,7 @@
     "/api/Invoice/cancel-outgoing-invoice/{outgoingInvoiceId}": {
       "post": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Giden e-arşiv faturayı iptal etme",
         "description": "Bu metot giden e-arşiv faturayı iptal etmek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/cancel-outgoing-invoice/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -836,7 +836,7 @@
     "/api/Invoice/check-customer-einvoice-info/{taxnumber}": {
       "post": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "e-Fatura mükellefiyet, posta kutuları, fatura serisi",
         "description": "Bu metot Cari bilgilerini sorgulamak için kullanılır\n- Örnek Response\n```json\n{\n  \"data\": {\n    \"customerIsEInvoiceAndAliasList\": {\n      \"isEInvoiceUser\": true,\n      \"aliasList\": [\n        \"defaultpk@perasisbilisim.com\"\n      ]\n    },\n    \"prefixList\": [\n      {\n        \"invoicePrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n        \"prefix\": \"ABC\",\n        \"lastUsedNumber\": 2025000009999\n      },\n      {\n        \"invoicePrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n        \"prefix\": \"XYZ\",\n        \"lastUsedNumber\": 2025000000018\n      }\n    ],\n    \"companyInfo\": {\n      \"unvan\": \"PERASİS BİLİŞİM TEKNOLOJİLERİ LİMİTED ŞİRKETİ\",\n      \"vergiDairesiAdi\": \"ŞAHİNBEY VERGİ DAİRESİ MÜD.\",\n      \"adres\": \"MAHMUT TEVFİK ATAY BLV. GAZİANTEP TEKNOPARK\",\n      \"ilceAdi\": \"ŞAHİNBEY\",\n      \"ilAdi\": \"GAZİANTEP\"\n    }\n  },\n  \"success\": true,\n  \"message\": null\n}\n```",
@@ -903,7 +903,7 @@
     "/api/Invoice/invoice-code/{invoiceType}": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "fatura tipine göre vergi kodu listesi",
         "description": "fatura tipine göre vergi kodu listesi",
@@ -954,7 +954,7 @@
     "/api/Invoice/units": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Birim listesi",
         "description": "Fatura oluşturma esnasında kullanılacak **unitId** değerini almak için kullanılır.",
@@ -995,7 +995,7 @@
     "/api/Invoice/get-draft-invoice-preview/{draftInvoiceId}": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "Taslak fatura detayı",
         "description": "Bu metot belirtilen taslak faturanın detay bilgilerini görüntülemek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-draft-invoice-preview/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -1057,7 +1057,7 @@
     "/api/Invoice/get-draft-invoice-preview-by-ref/{refId}": {
       "get": {
         "tags": [
-          "Invoice"
+          "Fatura"
         ],
         "summary": "RefId ile taslak fatura detayı",
         "description": "Bu metot belirtilen RefId değerine sahip taslak faturanın detay bilgilerini görüntülemek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-draft-invoice-preview-by-ref/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
@@ -1119,7 +1119,7 @@
     "/api/Invoice/get-outgoing-despatch-list": {
       "get": {
         "tags": [
-          "Invoice"
+          "Irsaliye"
         ],
         "summary": "Giden e-irsaliye listesi",
         "description": "Bu metot giden e-irsaliye listesini filtreleyerek getirmek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-outgoing-despatch-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
@@ -1201,7 +1201,7 @@
     "/api/Invoice/get-incoming-despatch-list": {
       "get": {
         "tags": [
-          "Invoice"
+          "Irsaliye"
         ],
         "summary": "Gelen e-irsaliye listesi",
         "description": "Bu metot gelen e-irsaliye listesini filtreleyerek getirmek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-incoming-despatch-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
@@ -1283,7 +1283,7 @@
     "/api/Invoice/get-despatch-pdf": {
       "get": {
         "tags": [
-          "Invoice"
+          "Irsaliye"
         ],
         "summary": "E-irsaliye pdf görüntüleme",
         "description": "Bu metot belirtilen e-irsaliyeyi PDF formatında (Base64 olarak) almak için kullanılır.\n- **despatchId**: Görüntülenecek irsaliyenin ID değeri.\n- **invoiceDocumentDirection**: İrsaliye yönü. `1` = Giden (Outgoing), `2` = Gelen (Incoming).\n- Örnek Request (Query String)\n`/api/Invoice/get-despatch-pdf?despatchId=0b33573c-4d4f-4d4e-3344-08dee0d812e4&invoiceDocumentDirection=1`",
@@ -1347,6 +1347,806 @@
           }
         }
       }
+    },
+    "/api/Invoice/add-despatch": {
+      "post": {
+        "tags": [
+          "Irsaliye"
+        ],
+        "summary": "E-İrsaliye oluşturma",
+        "description": "Bu metot yeni bir taslak irsaliye veya doğrudan onaylı e-irsaliye oluşturmak için kullanılır.\n\n### İrsaliye Oluşturma Kuralları:\n- **despatchOutputType**: Oluşturulan irsaliyenin response (yanıt) içindeki değerini hangi formatta almak istediğinizi belirtir. `Ubl`, `Html`, `Pdf` veya `Xml` değerlerinden biri gönderilebilir (varsayılan: `Pdf`).\n- **despatchPrefixId**: İrsaliye serisi ID değeri.\n- **company**: Alıcı firma bilgileri (unvan, vergi no, adres, ülke, il, ilçe vb.). İl ve ilçe bilgileri metin (string) olarak gönderildiğinde sistem otomatik olarak ID karşılıklarını bulur.\n- **deliveryAddress / deliveryCity / deliveryDistrict**: Teslimat açık adresi ile teslimat il ve ilçe isimleri doğrudan metin olarak gönderilebilir (örn. `deliveryAddress`: \"teslimat adres1\", `deliveryCity`: \"Gaziantep\", `deliveryDistrict`: \"Şahinbey\"). Sistem otomatik olarak ID karşılıklarını (`deliveryCityId`, `deliveryDistrictId`) bulur ve kaydeder.\n- **carrier**: Taşıyıcı / şoför / araç bilgileri (plaka, şoför TCKN, ad, soyad vb.). Taşıyıcı `city` ve `district` bilgileri metin olarak gönderilebilir; sistem otomatik olarak ID karşılıklarını bulur.\n- **unitId**: İrsaliye kalemleri için `/api/Invoice/units` endpoint'inden dönen uygun birim ID değeri (varsayılan: 1).\n- **draftDespatchType**: Belge türü: `DraftInvoice` (1) taslak olarak kaydeder, `EInvoice` (2) doğrudan e-irsaliye olarak onaylayıp GİB'e iletir (varsayılan: `EInvoice`).\n\n- Örnek Request\n```json\n{\n  \"despatchOutputType\": \"Pdf\",\n  \"despatchProfileId\": \"TEMELIRSALIYE\",\n  \"despatchDocumentTypeId\": \"SEVK\",\n  \"despatchPrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"despatchDate\": \"2026-10-12T10:00:00Z\",\n  \"actualDespatchDate\": \"2026-10-12T10:30:00Z\",\n  \"orderNumber\": \"SIP-2026-001\",\n  \"orderDate\": \"2026-10-12T09:00:00Z\",\n  \"description\": \"İrsaliye açıklaması\",\n  \"company\": {\n    \"companyName\": \"PERASİS BİLİŞİM TEKNOLOJİLERİ LTD. ŞTİ.\",\n    \"taxNumber\": \"7280366942\",\n    \"taxOffice\": \"ŞAHİNBEY\",\n    \"address\": \"Gaziantep Üniversitesi Teknopark C Blok No:207-208\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\",\n    \"isAddCompany\": false\n  },\n  \"deliveryAddress\": \"teslimat adres1\",\n  \"deliveryCity\": \"Gaziantep\",\n  \"deliveryDistrict\": \"Şahinbey\",\n  \"carrier\": {\n    \"carrierTitle\": \"Taşıyıcı Lojistik Ltd.\",\n    \"carrierTaxNumber\": \"1234567890\",\n    \"driverPersonFirstName\": \"Ahmet\",\n    \"driverPersonLastName\": \"Yılmaz\",\n    \"driverPersonTaxNumber\": \"12345678901\",\n    \"licensePlate\": \"27BB123\",\n    \"transportLicensePlate\": \"27DD456\",\n    \"phoneNumber\": \"05551234567\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\"\n  },\n  \"draftDespatchType\": \"EInvoice\",\n  \"lineItems\": [\n    {\n      \"quantity\": 10,\n      \"unitId\": 1,\n      \"product\": {\n        \"productName\": \"Ürün 1\",\n        \"price\": 100\n      }\n    }\n  ]\n}\n```",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDespatchRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"despatchId\": \"6a08f14c-01fd-44a5-33a7-08decc7ef8d0\",\n  \"data\": \"JVBERi0xLjQKMSAwIG9iago8PAovVGl0bGUgKP....\",\n  \"success\": true,\n  \"message\": \"Kayıt başarıyla eklendi.\"\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateDespatchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim."
+          },
+          "403": {
+            "description": "Erişim engellendi."
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-despatch-prefix-list": {
+      "get": {
+        "tags": [
+          "Irsaliye"
+        ],
+        "summary": "İrsaliye seri (prefix) listesi",
+        "description": "Bu metot e-irsaliye oluştururken kullanılabilecek aktif irsaliye serilerini (prefix) listelemek için kullanılır.",
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"data\": [\n    {\n      \"invoicePrefixId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"prefix\": \"IRS\",\n      \"lastUsedNumber\": 2026000000001,\n      \"isDefault\": true\n    }\n  ],\n  \"success\": true,\n  \"message\": null\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicePrefixForDropdownResponseDtoListDataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-draft-despatch-list": {
+      "get": {
+        "tags": [
+          "Irsaliye"
+        ],
+        "summary": "Taslak irsaliye listesi",
+        "description": "Bu metot taslak irsaliyeleri sayfalanmış şekilde listelemek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-draft-despatch-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
+        "parameters": [
+          {
+            "name": "StartDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"succeeded\": true,\n  \"success\": true,\n  \"message\": \"Listeleme işlemi başarılı.\",\n  \"datas\": [\n    {\n       \"draftDespatchId\": \"f2937a6e-f496-45bd-8694-08decb96e4f3\",\n       \"companyName\": \"PERASİS BİLİŞİM TEKNOLOJİLERİ LTD. ŞTİ.\",\n       \"despatchDate\": \"2026-06-16T13:44:37.697\",\n       \"actualDespatchDate\": \"2026-06-16T13:44:37.697\",\n       \"despatchNumber\": \"IRS2026000000001\",\n       \"createdOnDate\": \"2026-06-16T13:44:37.697\"\n    }\n  ],\n  \"pageNumber\": 1,\n  \"pageSize\": 10,\n  \"isFirstPage\": true,\n  \"isLastPage\": true,\n  \"totalPages\": 1,\n  \"totalRecords\": 1\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftDespatchResponseDtoPaginatedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-draft-despatch-preview/{draftDespatchId}": {
+      "get": {
+        "tags": [
+          "Irsaliye"
+        ],
+        "summary": "Taslak irsaliye detayı",
+        "description": "Bu metot belirtilen taslak irsaliyenin detay bilgilerini görüntülemek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-draft-despatch-preview/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
+        "parameters": [
+          {
+            "name": "draftDespatchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Taslak irsaliye detay bilgileri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftDespatchPreviewResponseDTODataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Taslak irsaliye bulunamadı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/delete-draft-despatch/{draftDespatchId}": {
+      "delete": {
+        "tags": [
+          "Irsaliye"
+        ],
+        "summary": "Taslak irsaliye silme",
+        "description": "Bu metot belirtilen taslak irsaliyeyi silmek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/delete-draft-despatch/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
+        "parameters": [
+          {
+            "name": "draftDespatchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"success\": true,\n  \"message\": \"Kayıt başarıyla silindi.\"\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Taslak irsaliye bulunamadı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/add-smm-invoice": {
+      "post": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "SMM Fatura oluşturma",
+        "description": "Bu metot yeni bir Serbest Meslek Makbuzu (e-SMM) taslağı veya doğrudan onaylı e-SMM oluşturmak için kullanılır.\n\n### SMM Fatura Oluşturma Kuralları:\n- **invoiceOutputType**: Oluşturulan makbuzun response (yanıt) içindeki değerini hangi formatta almak istediğinizi belirtir. `Ubl`, `Html`, `Pdf` veya `Xml` değerlerinden biri gönderilmelidir.\n- **city / district**: Alıcı il ve ilçe isimleri doğrudan metin (string) olarak gönderilebilir (örn. \"Gaziantep\", \"Şahinbey\"). Sistem tarafından otomatik olarak ID karşılıklarına dönüştürülür.\n- **unitId**: Bu değer için `/api/Invoice/units` endpoint'inden dönen birim listesindeki uygun ID değeri kullanılmalıdır (varsayılan: 1).\n- **refId**: Entegrasyon veya dış sistem referans ID değeri. İsteğe bağlıdır (GUID formatında gönderilmelidir, örn. `d3b07384-d113-46c1-8409-b632945d8b2c`).\n- **draftSmmInvoiceType**: Belge türünü belirtir: `DraftInvoice` (1) taslak olarak kaydeder, `Invoice` (2) doğrudan e-SMM olarak onaylayıp GİB'e iletir.\n- **discountAmountBeforePayableAmount**: Ödenecek tutar öncesi stopaj / kesinti tutarını belirtir.\n\n- Örnek Request\n```json\n{\n  \"invoiceOutputType\": \"Html\",\n  \"invoiceTypeId\": \"Satis\",\n  \"invoicePrefixId\": \"7842a8b8-5f4f-4ccc-ff9c-08df2540ad03\",\n  \"invoiceDate\": \"2026-10-12T06:43:29.387Z\",\n  \"company\": {\n    \"companyName\": \"PERASİS BİLİŞİM TEKNOLOJİLERİ LTD. ŞTİ.\",\n    \"taxNumber\": \"7280366942\",\n    \"taxOffice\": \"ŞAHİNBEY\",\n    \"address\": \"Gaziantep Üniversitesi Teknopark C Blok No:207-208\",\n    \"country\": \"Türkiye\",\n    \"city\": \"Gaziantep\",\n    \"district\": \"Şahinbey\",\n    \"isAddCompany\": false\n  },\n  \"isTaxIncludedInPrice\": false,\n  \"currencyType\": \"TRY\",\n  \"currencyRate\": 1,\n  \"subTotalAmount\": 15000,\n  \"totalTax\": 1500.00,\n  \"totalAmount\": 13500.00,\n  \"subTotalGrossAmount\": 0,\n  \"subTotalDiscountIsPercent\": true,\n  \"subTotalDiscountValue\": 0,\n  \"draftSmmInvoiceType\": \"Invoice\",\n  \"description\": \"Fatura açıklaması\",\n  \"lineItems\": [\n    {\n      \"taxRateType\": \"KDV_10\",\n      \"quantity\": 1,\n      \"unitPrice\": 15000,\n      \"unitId\": 1,\n      \"taxAmount\": 1500,\n      \"isDiscountPercent\": true,\n      \"discountAmount\": 0,\n      \"discountValue\": 0,\n      \"subTotal\": 15000,\n      \"subTotalIncludingDiscount\": 15000,\n      \"total\": 13500,\n      \"product\": {\n        \"productName\": \"Danışmanlık\",\n        \"price\": 15000\n      },\n      \"lineItemTaxes\": [\n        {\n          \"lineItemTaxType\": \"KDV\",\n          \"invoiceCodeId\": null,\n          \"isTaxPercent\": true,\n          \"amount\": \"1500.0000000\",\n          \"percent\": \"10\",\n          \"taxableAmount\": \"15000\"\n        },\n        {\n          \"lineItemTaxType\": 1,\n          \"invoiceCodeId\": 131,\n          \"isTaxPercent\": true,\n          \"amount\": \"-3000.0000000\",\n          \"percent\": \"20.0000\",\n          \"taxableAmount\": \"15000.0000000\"\n        }\n      ]\n    }\n  ],\n  \"alias\": \"string\"\n}\n```",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSMMInvoiceRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"invoiceId\": \"6a08f14c-01fd-44a5-33a7-08decc7ef8d0\",\n  \"data\": \"JVBERi0xLjQKMSAwIG9iago8PAovVGl0bGUgKP....\",\n  \"success\": true,\n  \"message\": \"Kayıt başarıyla eklendi.\"\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateInvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim."
+          },
+          "403": {
+            "description": "Erişim engellendi."
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-outgoing-smm-list": {
+      "get": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "Giden e-SMM listesi",
+        "description": "Bu metot giden serbest meslek makbuzu (e-SMM) listesini filtreleyerek getirmek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-outgoing-smm-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
+        "parameters": [
+          {
+            "name": "StartDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"succeeded\": true,\n  \"success\": true,\n  \"message\": \"Listeleme işlemi başarılı.\",\n  \"datas\": [\n    {\n       \"invoiceId\": \"f2937a6e-f496-45bd-8694-08decb96e4f3\",\n       \"invoiceDate\": \"2026-06-16T13:44:37.697\",\n       \"invoiceNumber\": \"SMM2026000000001\",\n       \"companyTitle\": \"PERASİS BİLİŞİM TEKNOLOJİLERİ LTD. ŞTİ.\",\n       \"companyTaxNumber\": \"7280366942\",\n       \"invoiceProfile\": \"e-SMM\",\n       \"invoiceDocumentType\": \"SATIS\",\n       \"outgoingStatus\": \"İşleniyor\",\n       \"payableAmount\": 13500,\n       \"taxAmount\": 1500,\n       \"currencyType\": \"₺\"\n    }\n  ],\n  \"pageNumber\": 1,\n  \"pageSize\": 10,\n  \"isFirstPage\": true,\n  \"isLastPage\": true,\n  \"totalPages\": 1,\n  \"totalRecords\": 1\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOutgoingInvoiceListResponseDTOPaginatedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-draft-smm-list": {
+      "get": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "Taslak SMM listesi",
+        "description": "Bu metot taslak serbest meslek makbuzlarını (e-SMM) sayfalanmış şekilde listelemek için kullanılır.\n- Örnek Request (Query String)\n`/api/Invoice/get-draft-smm-list?pageNumber=1&pageSize=10&search=Firma&startDate=2026-01-01&endDate=2026-06-16`",
+        "parameters": [
+          {
+            "name": "CurrencyTypeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"succeeded\": true,\n  \"success\": true,\n  \"message\": \"Listeleme işlemi başarılı.\",\n  \"datas\": [\n    {\n       \"draftInvoiceId\": \"f2937a6e-f496-45bd-8694-08decb96e4f3\",\n       \"companyName\": \"PERASİS BİLİŞİM TEKNOLOJİLERİ LTD. ŞTİ.\",\n       \"invoiceDate\": \"2026-06-16T13:44:37.697\",\n       \"invoiceNumber\": \"SMM2026000000001\",\n       \"currencySymbol\": \"₺\",\n       \"category\": \"e-SMM\",\n       \"createdOnDate\": \"2026-06-16T13:44:37.697\",\n       \"totalAmount\": 13500,\n       \"invoiceType\": \"SATIS\",\n       \"draftStatus\": \"Taslak\",\n       \"invoiceProfile\": \"e-SMM\",\n       \"draftStatusId\": 0\n    }\n  ],\n  \"pageNumber\": 1,\n  \"pageSize\": 10,\n  \"isFirstPage\": true,\n  \"isLastPage\": true,\n  \"totalPages\": 1,\n  \"totalRecords\": 1\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftInvoiceResponseDtoPaginatedResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-smm-pdf/{invoiceId}": {
+      "get": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "Giden e-SMM PDF görüntüleme",
+        "description": "Bu metot giden serbest meslek makbuzunu (e-SMM) PDF formatında (Base64 olarak) almak için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-smm-pdf/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"data\": \"JVBERi0xLjQKJdPr6gogMSAwIG9iagogIDw8IC9UeXBlIC9DYXRhbG9nCiAgICAgL1BhZ2VzIDIgMCBSCiAgPj4KZW5kb2Jq...\",\n  \"success\": true,\n  \"message\": null\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringDataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Fatura bulunamadı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-smm-xml/{invoiceId}": {
+      "get": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "Giden e-SMM UBL (XML)",
+        "description": "Bu metot giden serbest meslek makbuzunu (e-SMM) UBL XML formatında (Base64 olarak) almak için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-smm-xml/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"data\": \"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPEludm9pY2UgeG1sbnM9InVybjpvYXNpczpuYW1lczpzcGVjaWZpY2F0aW9uOnVibDpzY2hlbWE6eHNkOkludm9pY2UtMiI...\",\n  \"success\": true,\n  \"message\": null\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringDataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Fatura bulunamadı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-draft-smm-preview/{draftInvoiceId}": {
+      "get": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "Taslak SMM detayı",
+        "description": "Bu metot belirtilen taslak serbest meslek makbuzunun (e-SMM) detay bilgilerini görüntülemek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/get-draft-smm-preview/3fa85f64-5717-4562-b3fc-2c963f66afa6`",
+        "parameters": [
+          {
+            "name": "draftInvoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Taslak SMM detay bilgileri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftInvoicePreviewResponseDTODataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Taslak SMM bulunamadı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/get-smm-prefix-list": {
+      "get": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "SMM seri (prefix) listesi",
+        "description": "Bu metot serbest meslek makbuzu (e-SMM) oluştururken kullanılabilecek aktif SMM serilerini (prefix) listelemek için kullanılır.",
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"data\": [\n    {\n      \"invoicePrefixId\": \"7842a8b8-5f4f-4ccc-ff9c-08df2540ad03\",\n      \"prefix\": \"SMM\",\n      \"lastUsedNumber\": 2026000000001,\n      \"isDefault\": true\n    }\n  ],\n  \"success\": true,\n  \"message\": null\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicePrefixForDropdownResponseDtoListDataResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/delete-draft-smm/{draftInvoiceId}": {
+      "delete": {
+        "tags": [
+          "SMM"
+        ],
+        "summary": "Taslak SMM silme",
+        "description": "Bu metot belirtilen taslak serbest meslek makbuzunu (e-SMM) silmek için kullanılır.\n- Örnek Request (Path Parameter)\n`/api/Invoice/delete-draft-smm/{draftInvoiceId}`",
+        "parameters": [
+          {
+            "name": "draftInvoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "```json\n{\n  \"success\": true,\n  \"message\": \"Kayıt başarıyla silindi.\"\n}\n```",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erişim engellendi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Taslak SMM bulunamadı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1392,6 +2192,496 @@
           "alias": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDespatchCarrierRequestDTO": {
+        "type": "object",
+        "properties": {
+          "carrierTitle": {
+            "title": "Taşıyıcı Unvanı",
+            "type": "string",
+            "description": "Taşıyıcı unvanı.",
+            "nullable": true
+          },
+          "carrierTaxNumber": {
+            "title": "Taşıyıcı VKN/TCKN",
+            "type": "string",
+            "description": "Taşıyıcı vergi kimlik numarası veya TCKN.",
+            "nullable": true
+          },
+          "driverPersonFirstName": {
+            "title": "Şoför Adı",
+            "type": "string",
+            "description": "Şoför adı.",
+            "nullable": true
+          },
+          "driverPersonLastName": {
+            "title": "Şoför Soyadı",
+            "type": "string",
+            "description": "Şoför soyadı.",
+            "nullable": true
+          },
+          "driverPersonTaxNumber": {
+            "title": "Şoför TCKN",
+            "type": "string",
+            "description": "Şoför TCKN.",
+            "nullable": true
+          },
+          "licensePlate": {
+            "title": "Araç Plakası",
+            "type": "string",
+            "description": "Araç plaka numarası.",
+            "nullable": true
+          },
+          "transportLicensePlate": {
+            "title": "Dorse Plakası",
+            "type": "string",
+            "description": "Dorse / taşıma plaka numarası.",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "title": "Telefon Numarası",
+            "type": "string",
+            "description": "İletişim telefon numarası.",
+            "nullable": true
+          },
+          "country": {
+            "title": "Taşıyıcı Ülke",
+            "type": "string",
+            "description": "Taşıyıcı ülke adı (örn. Türkiye).",
+            "nullable": true
+          },
+          "city": {
+            "title": "Taşıyıcı İl",
+            "type": "string",
+            "description": "Taşıyıcı il / şehir adı (örn. Gaziantep). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "district": {
+            "title": "Taşıyıcı İlçe",
+            "type": "string",
+            "description": "Taşıyıcı ilçe adı (örn. Şahinbey). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "cityId": {
+            "title": "Taşıyıcı İl ID",
+            "type": "integer",
+            "description": "Taşıyıcı il ID değeri (isteğe bağlı, City yerine doğrudan ID gönderilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "districtId": {
+            "title": "Taşıyıcı İlçe ID",
+            "type": "integer",
+            "description": "Taşıyıcı ilçe ID değeri (isteğe bağlı, District yerine doğrudan ID gönderilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryId": {
+            "title": "Taşıyıcı Ülke ID",
+            "type": "integer",
+            "description": "Taşıyıcı ülke ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDespatchDeliveryRequestDTO": {
+        "type": "object",
+        "properties": {
+          "deliveryAddress": {
+            "title": "Teslimat Adresi",
+            "type": "string",
+            "description": "Teslimat adresi.",
+            "nullable": true
+          },
+          "country": {
+            "title": "Teslimat Ülke",
+            "type": "string",
+            "description": "Teslimat ülke adı (örn. Türkiye).",
+            "nullable": true
+          },
+          "city": {
+            "title": "Teslimat İl",
+            "type": "string",
+            "description": "Teslimat il / şehir adı (örn. Gaziantep). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "district": {
+            "title": "Teslimat İlçe",
+            "type": "string",
+            "description": "Teslimat ilçe adı (örn. Şahinbey). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "cityId": {
+            "title": "Teslimat İl ID",
+            "type": "integer",
+            "description": "Teslimat il ID değeri (isteğe bağlı, City yerine doğrudan ID gönderilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "districtId": {
+            "title": "Teslimat İlçe ID",
+            "type": "integer",
+            "description": "Teslimat ilçe ID değeri (isteğe bağlı, District yerine doğrudan ID gönderilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryId": {
+            "title": "Teslimat Ülke ID",
+            "type": "integer",
+            "description": "Teslimat ülke ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDespatchLineItemRequestDTO": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "title": "Ürün ID",
+            "type": "string",
+            "description": "Mevcut bir ürünün ID değeri. Belirtilmezse yeni ürün bilgisi kullanılır.",
+            "format": "uuid",
+            "nullable": true
+          },
+          "quantity": {
+            "title": "Miktar",
+            "type": "number",
+            "description": "Ürün miktarı (sıfırdan büyük olmalıdır).",
+            "format": "double"
+          },
+          "unitId": {
+            "title": "Birim ID",
+            "type": "integer",
+            "description": "Birim türü ID değeri (varsayılan: 1 - Adet). /api/Invoice/units endpoint'inden alınabilir.",
+            "format": "int32"
+          },
+          "lineDescription": {
+            "title": "Kalem Açıklaması",
+            "type": "string",
+            "description": "Kalem açıklaması.",
+            "nullable": true
+          },
+          "idisLabelNumber": {
+            "title": "İDİS Etiket Numarası",
+            "type": "string",
+            "description": "İDİS irsaliyesi için İDİS etiket numarası.",
+            "nullable": true
+          },
+          "productWarehouseId": {
+            "title": "Depo ID",
+            "type": "string",
+            "description": "Ürün depo ID değeri (stok takibi için isteğe bağlı).",
+            "format": "uuid",
+            "nullable": true
+          },
+          "product": {
+            "$ref": "#/components/schemas/CreateDespatchProductRequestDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDespatchProductRequestDTO": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "title": "Ürün Adı",
+            "type": "string",
+            "description": "Ürün adı."
+          },
+          "productDescription": {
+            "title": "Ürün Açıklaması",
+            "type": "string",
+            "description": "Ürün açıklaması.",
+            "nullable": true
+          },
+          "price": {
+            "title": "Fiyat",
+            "type": "number",
+            "description": "Ürün birim fiyatı (irsaliye için isteğe bağlı).",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDespatchRequestDTO": {
+        "required": [
+          "despatchDate",
+          "despatchPrefixId"
+        ],
+        "type": "object",
+        "properties": {
+          "despatchOutputType": {
+            "$ref": "#/components/schemas/InvoiceOutputType"
+          },
+          "despatchProfileId": {
+            "$ref": "#/components/schemas/DespatchProfile"
+          },
+          "despatchDocumentTypeId": {
+            "$ref": "#/components/schemas/DespatchDocumentType"
+          },
+          "despatchPrefixId": {
+            "title": "İrsaliye Serisi",
+            "type": "string",
+            "description": "İrsaliye serisi (prefix) için benzersiz tanımlayıcı. **Önemli**: Zorunludur.",
+            "format": "uuid"
+          },
+          "despatchDate": {
+            "title": "İrsaliye Tarihi",
+            "type": "string",
+            "description": "İrsaliyenin düzenlenme tarihi.",
+            "format": "date-time"
+          },
+          "actualDespatchDate": {
+            "title": "Sevk Tarihi",
+            "type": "string",
+            "description": "Fiili sevk tarihi ve saati. Belirtilmezse irsaliye tarihi kullanılır.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "orderNumber": {
+            "title": "Sipariş Numarası",
+            "type": "string",
+            "description": "Sipariş numarası.",
+            "nullable": true
+          },
+          "orderDate": {
+            "title": "Sipariş Tarihi",
+            "type": "string",
+            "description": "Sipariş tarihi.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "matbuNumber": {
+            "title": "Matbu No",
+            "type": "string",
+            "description": "Matbu irsaliye numarası.",
+            "nullable": true
+          },
+          "matbuDate": {
+            "title": "Matbu Tarih",
+            "type": "string",
+            "description": "Matbu irsaliye tarihi.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "shipmentNumber": {
+            "title": "Sevkiyat Numarası",
+            "type": "string",
+            "description": "Sevkiyat numarası.",
+            "nullable": true
+          },
+          "description": {
+            "title": "Açıklama",
+            "type": "string",
+            "description": "İrsaliyeye ait genel açıklama veya not.",
+            "nullable": true
+          },
+          "company": {
+            "$ref": "#/components/schemas/CreateInvoiceCompanyRequestDTO"
+          },
+          "alias": {
+            "title": "Firma Posta Kutusu",
+            "type": "string",
+            "description": "Alıcı firmaya ait posta kutusu (alias/etiket).",
+            "nullable": true
+          },
+          "draftDespatchType": {
+            "$ref": "#/components/schemas/DraftInvoiceType"
+          },
+          "delivery": {
+            "$ref": "#/components/schemas/CreateDespatchDeliveryRequestDTO"
+          },
+          "deliveryAddress": {
+            "title": "Teslimat Adresi",
+            "type": "string",
+            "description": "Farklı bir teslimat adresi varsa açık adres metni.",
+            "nullable": true
+          },
+          "deliveryCountry": {
+            "title": "Teslimat Ülkesi",
+            "type": "string",
+            "description": "Teslimat ülke adı (örn. Türkiye).",
+            "nullable": true
+          },
+          "deliveryCity": {
+            "title": "Teslimat İli",
+            "type": "string",
+            "description": "Teslimat il / şehir adı (örn. Gaziantep). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "deliveryDistrict": {
+            "title": "Teslimat İlçesi",
+            "type": "string",
+            "description": "Teslimat ilçe adı (örn. Şahinbey). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "deliveryCityId": {
+            "title": "Teslimat İl ID",
+            "type": "integer",
+            "description": "Teslimat il ID değeri (isteğe bağlı, DeliveryCity yerine doğrudan ID verilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "deliveryDistrictId": {
+            "title": "Teslimat İlçe ID",
+            "type": "integer",
+            "description": "Teslimat ilçe ID değeri (isteğe bağlı, DeliveryDistrict yerine doğrudan ID verilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "deliveryCountryId": {
+            "title": "Teslimat Ülke ID",
+            "type": "integer",
+            "description": "Teslimat ülke ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "carrier": {
+            "$ref": "#/components/schemas/CreateDespatchCarrierRequestDTO"
+          },
+          "carrierTitle": {
+            "title": "Taşıyıcı Unvanı",
+            "type": "string",
+            "description": "Taşıyıcı unvanı.",
+            "nullable": true
+          },
+          "carrierTaxNumber": {
+            "title": "Taşıyıcı VKN/TCKN",
+            "type": "string",
+            "description": "Taşıyıcı vergi kimlik numarası veya TCKN.",
+            "nullable": true
+          },
+          "driverPersonFirstName": {
+            "title": "Şoför Adı",
+            "type": "string",
+            "description": "Şoför adı.",
+            "nullable": true
+          },
+          "driverPersonLastName": {
+            "title": "Şoför Soyadı",
+            "type": "string",
+            "description": "Şoför soyadı.",
+            "nullable": true
+          },
+          "driverPersonTaxNumber": {
+            "title": "Şoför TCKN",
+            "type": "string",
+            "description": "Şoför TCKN.",
+            "nullable": true
+          },
+          "licensePlate": {
+            "title": "Araç Plakası",
+            "type": "string",
+            "description": "Araç plaka numarası.",
+            "nullable": true
+          },
+          "transportLicensePlate": {
+            "title": "Dorse Plakası",
+            "type": "string",
+            "description": "Dorse / taşıma plaka numarası.",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "title": "Telefon Numarası",
+            "type": "string",
+            "description": "İletişim telefon numarası.",
+            "nullable": true
+          },
+          "carrierCountry": {
+            "title": "Taşıyıcı Ülke",
+            "type": "string",
+            "description": "Taşıyıcı ülke adı (örn. Türkiye).",
+            "nullable": true
+          },
+          "carrierCity": {
+            "title": "Taşıyıcı İl",
+            "type": "string",
+            "description": "Taşıyıcı il / şehir adı (örn. Gaziantep). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "carrierDistrict": {
+            "title": "Taşıyıcı İlçe",
+            "type": "string",
+            "description": "Taşıyıcı ilçe adı (örn. Şahinbey). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "carrierCityId": {
+            "title": "Taşıyıcı İl ID",
+            "type": "integer",
+            "description": "Taşıyıcı il ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "carrierDistrictId": {
+            "title": "Taşıyıcı İlçe ID",
+            "type": "integer",
+            "description": "Taşıyıcı ilçe ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "carrierCountryId": {
+            "title": "Taşıyıcı Ülke ID",
+            "type": "integer",
+            "description": "Taşıyıcı ülke ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "lineItems": {
+            "title": "İrsaliye Kalemleri",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateDespatchLineItemRequestDTO"
+            },
+            "description": "İrsaliye kalemlerinin listesini içerir."
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDespatchResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "despatchId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "invoiceId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "readOnly": true
+          },
+          "outgoingDespatchId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "draftDespatchId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "isEDespatch": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1462,6 +2752,24 @@
             "type": "string",
             "description": "SARJANLIK faturası için kalem EsuSeriNo.",
             "nullable": true
+          },
+          "productId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "taxRateId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1471,6 +2779,16 @@
         "properties": {
           "taxRateType": {
             "$ref": "#/components/schemas/TaxRateType"
+          },
+          "taxRateId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           },
           "quantity": {
             "title": "Miktar",
@@ -1781,6 +3099,119 @@
         },
         "additionalProperties": false
       },
+      "CreateSMMInvoiceRequestDTO": {
+        "required": [
+          "invoiceDate",
+          "invoicePrefixId"
+        ],
+        "type": "object",
+        "properties": {
+          "invoiceOutputType": {
+            "$ref": "#/components/schemas/InvoiceOutputType"
+          },
+          "invoiceTypeId": {
+            "$ref": "#/components/schemas/InvoiceType"
+          },
+          "invoicePrefixId": {
+            "title": "Fatura Serisi",
+            "type": "string",
+            "description": "e-SMM serisi için benzersiz tanımlayıcı. **Önemli**: Bu alan zorunludur.",
+            "format": "uuid"
+          },
+          "invoiceDate": {
+            "title": "Makbuz Tarihi",
+            "type": "string",
+            "description": "Makbuzun düzenlenme tarihini belirtir.",
+            "format": "date-time"
+          },
+          "company": {
+            "$ref": "#/components/schemas/CreateInvoiceCompanyRequestDTO"
+          },
+          "isTaxIncludedInPrice": {
+            "title": "Vergi Fiyata Dahil mi",
+            "type": "boolean",
+            "description": "Fiyatlara verginin dahil olup olmadığını belirtir."
+          },
+          "currencyType": {
+            "$ref": "#/components/schemas/CurrencyType"
+          },
+          "currencyRate": {
+            "title": "Döviz Kuru",
+            "type": "number",
+            "description": "Döviz kuru oranını belirtir.",
+            "format": "double",
+            "nullable": true
+          },
+          "subTotalAmount": {
+            "title": "Ara Toplam Tutar",
+            "type": "number",
+            "description": "Makbuzun vergi hariç ara toplam tutarını ifade eder.",
+            "format": "double"
+          },
+          "totalTax": {
+            "title": "Toplam Vergi",
+            "type": "number",
+            "description": "Makbuzdaki toplam vergi tutarını belirtir (KDV vb.).",
+            "format": "double"
+          },
+          "totalAmount": {
+            "title": "Toplam Tutar",
+            "type": "number",
+            "description": "Makbuzun net / genel toplam tutarını ifade eder.",
+            "format": "double"
+          },
+          "subTotalGrossAmount": {
+            "title": "Brüt Ara Toplam",
+            "type": "number",
+            "description": "Makbuzun brüt ara toplam tutarını belirtir (indirim/kesinti öncesi).",
+            "format": "double",
+            "nullable": true
+          },
+          "draftSmmInvoiceType": {
+            "$ref": "#/components/schemas/DraftSmmInvoiceType"
+          },
+          "description": {
+            "title": "Açıklama",
+            "type": "string",
+            "description": "Makbuza ait genel açıklamayı veya notu ifade eder.",
+            "nullable": true
+          },
+          "lineItems": {
+            "title": "Makbuz Kalemleri",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateInvoiceLineItemRequestDTO"
+            },
+            "description": "Makbuzdaki hizmet kalemlerinin listesini içerir."
+          },
+          "refId": {
+            "title": "Referans ID",
+            "type": "string",
+            "description": "Entegrasyon veya dış referans ID değeri (GUID formatında).",
+            "nullable": true
+          },
+          "alias": {
+            "title": "Firma Posta Kutusu",
+            "type": "string",
+            "description": "Firmaya ait posta kutusunu ifade eder.",
+            "nullable": true
+          },
+          "subTotalDiscountIsPercent": {
+            "title": "İndirim Yüzde Bazlı mı",
+            "type": "boolean",
+            "description": "İndirimin yüzde bazlı olup olmadığını belirtir.",
+            "nullable": true
+          },
+          "subTotalDiscountValue": {
+            "title": "Ara Toplam İndirim Tutarı",
+            "type": "number",
+            "description": "Faturadaki indirim tutarını belirtir.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CurrencyType": {
         "title": "Para Birimi",
         "type": "string",
@@ -1821,9 +3252,363 @@
         },
         "additionalProperties": false
       },
+      "DespatchDocumentType": {
+        "type": "string",
+        "description": " Available : *SEVK, MATBUDAN*\n"
+      },
       "DespatchIncomingInvoice": {
         "type": "string",
         "description": " Available : *Received, PendingAnswer, AcceptAnswered, AcceptAnswerCompleted, PartiallyAcceptAnswered, PartiallyAcceptAnswerCompleted, RejectAnswered, RejectAnswerCompleted, AutomaticallyAccepted, Failed, FromArchive*\n"
+      },
+      "DespatchProfile": {
+        "type": "string",
+        "description": " Available : *TEMELIRSALIYE, HKSIRSALIYE, IDISIRSALIYE*\n"
+      },
+      "DraftDespatchPreviewResponseDTO": {
+        "required": [
+          "despatchDate",
+          "despatchPrefixId"
+        ],
+        "type": "object",
+        "properties": {
+          "despatchOutputType": {
+            "$ref": "#/components/schemas/InvoiceOutputType"
+          },
+          "despatchProfileId": {
+            "$ref": "#/components/schemas/DespatchProfile"
+          },
+          "despatchDocumentTypeId": {
+            "$ref": "#/components/schemas/DespatchDocumentType"
+          },
+          "despatchPrefixId": {
+            "title": "İrsaliye Serisi",
+            "type": "string",
+            "description": "İrsaliye serisi (prefix) için benzersiz tanımlayıcı. **Önemli**: Zorunludur.",
+            "format": "uuid"
+          },
+          "despatchDate": {
+            "title": "İrsaliye Tarihi",
+            "type": "string",
+            "description": "İrsaliyenin düzenlenme tarihi.",
+            "format": "date-time"
+          },
+          "actualDespatchDate": {
+            "title": "Sevk Tarihi",
+            "type": "string",
+            "description": "Fiili sevk tarihi ve saati. Belirtilmezse irsaliye tarihi kullanılır.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "orderNumber": {
+            "title": "Sipariş Numarası",
+            "type": "string",
+            "description": "Sipariş numarası.",
+            "nullable": true
+          },
+          "orderDate": {
+            "title": "Sipariş Tarihi",
+            "type": "string",
+            "description": "Sipariş tarihi.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "matbuNumber": {
+            "title": "Matbu No",
+            "type": "string",
+            "description": "Matbu irsaliye numarası.",
+            "nullable": true
+          },
+          "matbuDate": {
+            "title": "Matbu Tarih",
+            "type": "string",
+            "description": "Matbu irsaliye tarihi.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "shipmentNumber": {
+            "title": "Sevkiyat Numarası",
+            "type": "string",
+            "description": "Sevkiyat numarası.",
+            "nullable": true
+          },
+          "description": {
+            "title": "Açıklama",
+            "type": "string",
+            "description": "İrsaliyeye ait genel açıklama veya not.",
+            "nullable": true
+          },
+          "company": {
+            "$ref": "#/components/schemas/CreateInvoiceCompanyRequestDTO"
+          },
+          "alias": {
+            "title": "Firma Posta Kutusu",
+            "type": "string",
+            "description": "Alıcı firmaya ait posta kutusu (alias/etiket).",
+            "nullable": true
+          },
+          "draftDespatchType": {
+            "$ref": "#/components/schemas/DraftInvoiceType"
+          },
+          "delivery": {
+            "$ref": "#/components/schemas/CreateDespatchDeliveryRequestDTO"
+          },
+          "deliveryAddress": {
+            "title": "Teslimat Adresi",
+            "type": "string",
+            "description": "Farklı bir teslimat adresi varsa açık adres metni.",
+            "nullable": true
+          },
+          "deliveryCountry": {
+            "title": "Teslimat Ülkesi",
+            "type": "string",
+            "description": "Teslimat ülke adı (örn. Türkiye).",
+            "nullable": true
+          },
+          "deliveryCity": {
+            "title": "Teslimat İli",
+            "type": "string",
+            "description": "Teslimat il / şehir adı (örn. Gaziantep). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "deliveryDistrict": {
+            "title": "Teslimat İlçesi",
+            "type": "string",
+            "description": "Teslimat ilçe adı (örn. Şahinbey). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "deliveryCityId": {
+            "title": "Teslimat İl ID",
+            "type": "integer",
+            "description": "Teslimat il ID değeri (isteğe bağlı, DeliveryCity yerine doğrudan ID verilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "deliveryDistrictId": {
+            "title": "Teslimat İlçe ID",
+            "type": "integer",
+            "description": "Teslimat ilçe ID değeri (isteğe bağlı, DeliveryDistrict yerine doğrudan ID verilebilir).",
+            "format": "int32",
+            "nullable": true
+          },
+          "deliveryCountryId": {
+            "title": "Teslimat Ülke ID",
+            "type": "integer",
+            "description": "Teslimat ülke ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "carrier": {
+            "$ref": "#/components/schemas/CreateDespatchCarrierRequestDTO"
+          },
+          "carrierTitle": {
+            "title": "Taşıyıcı Unvanı",
+            "type": "string",
+            "description": "Taşıyıcı unvanı.",
+            "nullable": true
+          },
+          "carrierTaxNumber": {
+            "title": "Taşıyıcı VKN/TCKN",
+            "type": "string",
+            "description": "Taşıyıcı vergi kimlik numarası veya TCKN.",
+            "nullable": true
+          },
+          "driverPersonFirstName": {
+            "title": "Şoför Adı",
+            "type": "string",
+            "description": "Şoför adı.",
+            "nullable": true
+          },
+          "driverPersonLastName": {
+            "title": "Şoför Soyadı",
+            "type": "string",
+            "description": "Şoför soyadı.",
+            "nullable": true
+          },
+          "driverPersonTaxNumber": {
+            "title": "Şoför TCKN",
+            "type": "string",
+            "description": "Şoför TCKN.",
+            "nullable": true
+          },
+          "licensePlate": {
+            "title": "Araç Plakası",
+            "type": "string",
+            "description": "Araç plaka numarası.",
+            "nullable": true
+          },
+          "transportLicensePlate": {
+            "title": "Dorse Plakası",
+            "type": "string",
+            "description": "Dorse / taşıma plaka numarası.",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "title": "Telefon Numarası",
+            "type": "string",
+            "description": "İletişim telefon numarası.",
+            "nullable": true
+          },
+          "carrierCountry": {
+            "title": "Taşıyıcı Ülke",
+            "type": "string",
+            "description": "Taşıyıcı ülke adı (örn. Türkiye).",
+            "nullable": true
+          },
+          "carrierCity": {
+            "title": "Taşıyıcı İl",
+            "type": "string",
+            "description": "Taşıyıcı il / şehir adı (örn. Gaziantep). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "carrierDistrict": {
+            "title": "Taşıyıcı İlçe",
+            "type": "string",
+            "description": "Taşıyıcı ilçe adı (örn. Şahinbey). Sistem otomatik olarak ID karşılığını bulur.",
+            "nullable": true
+          },
+          "carrierCityId": {
+            "title": "Taşıyıcı İl ID",
+            "type": "integer",
+            "description": "Taşıyıcı il ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "carrierDistrictId": {
+            "title": "Taşıyıcı İlçe ID",
+            "type": "integer",
+            "description": "Taşıyıcı ilçe ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "carrierCountryId": {
+            "title": "Taşıyıcı Ülke ID",
+            "type": "integer",
+            "description": "Taşıyıcı ülke ID değeri (isteğe bağlı).",
+            "format": "int32",
+            "nullable": true
+          },
+          "lineItems": {
+            "title": "İrsaliye Kalemleri",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateDespatchLineItemRequestDTO"
+            },
+            "description": "İrsaliye kalemlerinin listesini içerir."
+          },
+          "draftDespatchId": {
+            "title": "Taslak İrsaliye ID",
+            "type": "string",
+            "description": "Taslak irsaliyenin benzersiz kimliği (ID).",
+            "format": "uuid"
+          },
+          "despatchNumber": {
+            "title": "İrsaliye Numarası",
+            "type": "string",
+            "description": "İrsaliye numarası (varsa).",
+            "nullable": true
+          },
+          "createdOnDate": {
+            "title": "Oluşturulma Tarihi",
+            "type": "string",
+            "description": "Kayıt oluşturulma tarihi.",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DraftDespatchPreviewResponseDTODataResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/DraftDespatchPreviewResponseDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DraftDespatchResponseDto": {
+        "type": "object",
+        "properties": {
+          "draftDespatchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "despatchDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actualDespatchDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "despatchNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdOnDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DraftDespatchResponseDtoPaginatedResult": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "datas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DraftDespatchResponseDto"
+            },
+            "nullable": true
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isFirstPage": {
+            "type": "boolean"
+          },
+          "isLastPage": {
+            "type": "boolean"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
       },
       "DraftInvoiceAdditionalInfoWithDateDto": {
         "type": "object",
@@ -2138,6 +3923,10 @@
       "DraftInvoiceType": {
         "type": "string",
         "description": " Available : *DraftInvoice, EInvoice*\n"
+      },
+      "DraftSmmInvoiceType": {
+        "type": "string",
+        "description": " Available : *DraftInvoice, Invoice*\n"
       },
       "EInvoiceIdAndDirectionDTO": {
         "type": "object",
@@ -2562,6 +4351,26 @@
         },
         "additionalProperties": false
       },
+      "InvoicePrefixForDropdownResponseDtoListDataResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoicePrefixForDropdownResponseDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "InvoiceProfile": {
         "title": "Fatura Profili",
         "type": "string",
@@ -2804,176 +4613,25 @@
   ],
   "tags": [
     {
-      "name": "Account"
+      "name": "Fatura",
+      "x-displayName": "Fatura İşlemleri"
     },
     {
-      "name": "AccountTransaction"
+      "name": "Irsaliye",
+      "x-displayName": "E-İrsaliye İşlemleri"
     },
     {
-      "name": "Announcement"
-    },
-    {
-      "name": "Auth"
-    },
-    {
-      "name": "BankTransactions"
-    },
-    {
-      "name": "BaseClaim"
-    },
-    {
-      "name": "BulkOperationRequest"
-    },
-    {
-      "name": "Campaign"
-    },
-    {
-      "name": "Category"
-    },
-    {
-      "name": "CheckAndBill"
-    },
-    {
-      "name": "Company"
-    },
-    {
-      "name": "CompanyContact"
-    },
-    {
-      "name": "CompanyIban"
-    },
-    {
-      "name": "CompanyTransaction"
-    },
-    {
-      "name": "CreditTransaction"
-    },
-    {
-      "name": "Currency"
-    },
-    {
-      "name": "DataTransfer"
-    },
-    {
-      "name": "DefaultObject"
-    },
-    {
-      "name": "Despatch"
-    },
-    {
-      "name": "DraftDespatch"
-    },
-    {
-      "name": "DraftInvoice"
-    },
-    {
-      "name": "ECommerce"
-    },
-    {
-      "name": "EInvoice"
-    },
-    {
-      "name": "Employee"
-    },
-    {
-      "name": "Expense"
-    },
-    {
-      "name": "Gib"
-    },
-    {
-      "name": "Hub"
-    },
-    {
-      "name": "Invoice"
-    },
-    {
-      "name": "InvoiceFooterNote"
-    },
-    {
-      "name": "InvoicePrefix"
-    },
-    {
-      "name": "Log"
-    },
-    {
-      "name": "Note"
-    },
-    {
-      "name": "Notification"
-    },
-    {
-      "name": "Offer"
-    },
-    {
-      "name": "Order"
-    },
-    {
-      "name": "Package"
-    },
-    {
-      "name": "Payment"
-    },
-    {
-      "name": "Poll"
-    },
-    {
-      "name": "Product"
-    },
-    {
-      "name": "ProductTransaction"
-    },
-    {
-      "name": "ProductWarehouse"
-    },
-    {
-      "name": "Purchase"
-    },
-    {
-      "name": "Role"
-    },
-    {
-      "name": "RoleClaim"
-    },
-    {
-      "name": "SMM"
-    },
-    {
-      "name": "SMSLoginSetting"
-    },
-    {
-      "name": "Tag"
-    },
-    {
-      "name": "Template"
-    },
-    {
-      "name": "Tenant"
-    },
-    {
-      "name": "TenantIban"
-    },
-    {
-      "name": "TenantOrder"
-    },
-    {
-      "name": "TenantPackage"
-    },
-    {
-      "name": "Ticket"
-    },
-    {
-      "name": "ToDo"
-    },
-    {
-      "name": "User"
+      "name": "SMM",
+      "x-displayName": "SMM Fatura İşlemleri"
     }
   ],
   "x-tagGroups": [
     {
       "name": "Fatura API İşlemleri",
       "tags": [
-        "Invoice"
+        "Fatura",
+        "SMM",
+        "Irsaliye"
       ]
     }
   ]

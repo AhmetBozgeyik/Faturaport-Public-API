@@ -1,16 +1,18 @@
-# Kaynaklar ve doğrulama
+# API dokümanı güncellemeleri ve örneklerin kontrolü
 
-## Kaynak ve kapsam
+Bu repo, Faturaport'un [test](https://devapi.faturaport.com/docs/index.html) ve [Canlı](https://prodapi.faturaport.com/docs/index.html) API dokümanlarına göre hazırlanır. Son karşılaştırma tarihi **13 Ekim 2026**. İki ortamda da aynı 34 işlem bulunuyor.
 
-- [Dev dokümanı](https://devapi.faturaport.com/docs/index.html)
-- [Canlı dokümanı](https://prodapi.faturaport.com/docs/index.html)
-- API V3.0.0; kaynak inceleme tarihi: **12 Ekim 2026**.
-- İki ortamda aynı 21 public işlem bulunur. Kaynak şemalar public işlemlerin kullandığı modellere indirgenerek [openapi](../openapi/README.md) altında saklanır.
-- Portal üzerinden erişim bilgisi oluşturma adımları Faturaport tarafından sağlanan bilgiye dayanır.
+Bu güncellemede e-İrsaliye oluşturma, irsaliye taslak işlemleri, e-SMM oluşturma, makbuz listeleme ve PDF/XML indirme adımları eklendi.
 
-## Yerel kontroller
+## Neler kontrol ediliyor?
 
-Repo kökünden Node.js 20+ ve .NET 8 SDK ile:
+Dosyaların okunabilir JSON olması, rehber bağlantılarının çalışması, örnek isteklerdeki alanların API tanımlarıyla uyuşması ve Postman adreslerinin güncel olması kontrol edilir. .NET örneği ayrıca derlenir. Bu kontroller, hesabınızla yapılacak gerçek belge denemesinin yerine geçmez.
+
+API erişim bilgileri sağlanmadığı için token alma, belge gönderme ve indirme işlemleri gerçek hesapla denenmedi. e-Arşiv gönderim adımı, gelen/giden yönünün kabul edilen değeri ve e-SMM kesinti bilgileri de test hesabıyla netleştirilmelidir.
+
+## Dosya kontrollerini çalıştırma
+
+Repo klasöründe Node.js 20+ ve .NET 8 SDK ile:
 
 ```powershell
 node tools/verify.mjs
@@ -18,24 +20,18 @@ dotnet build examples/dotnet/Faturaport.Examples.csproj
 node tools/smoke-dotnet.mjs
 ```
 
-PHP 8.1+ bulunan ortamda:
+PHP 8.1+ kuruluysa:
 
 ```bash
 php -l examples/php/faturaport.php
 ```
 
-Doğrulama betiği JSON biçimini, Markdown dosya bağlantılarını, şema referanslarını, Dev/Canlı endpoint kapsamını, token/taslak/gönderim isteklerinin modellerle uyumunu ve Postman endpoint eşleşmesini kontrol eder. Bu kontrol tam JSON Schema doğrulayıcısı değildir; iş kurallarını veya şemada açıklama olarak verilen seçenekleri sunucu yerine doğrulamaz.
+`verify.mjs` dosyalar ve alan türleri için temel kontroller yapar; sunucunun bütün işlem kurallarını kontrol etmez. `smoke-dotnet.mjs` yanlış komut veya eksik bağlantı bilgisi verildiğinde örneğin hata bildirdiğini kontrol eder; API'ye bağlanmaz.
 
-`node tools/prepare.mjs`, yerel OpenAPI dosyalarından referans dokümanı, JSON şablonları ve Postman koleksiyonunu yeniden oluşturur. Mevcut örnek dosyaları üzerine yazar; kişisel erişim bilgileriyle uyarlanmış dosyalarda çalıştırmayın.
+İlk hazırlamada Windows uygulama denetimi derlenen .NET örneğinin çalıştırılmasını engelledi. PHP bu bilgisayarda kurulu değil. GitHub Actions'ta bu kontroller için [iş akışı](../.github/workflows/verify.yml) bulunur.
 
-## API hesabıyla doğrulanması gerekenler
+## API dosyaları değiştiğinde
 
-Henüz API erişim bilgisi sağlanmadığı için gerçek token alma, belge oluşturma/gönderme ve indirme yapılmadı. e-Arşiv gönderim ayrıntıları ve yön alanının sayısal/string farkı da test hesabıyla doğrulanmalıdır. e-SMM ve e-İrsaliye gönderimi public endpoint listesinde bulunmadığından örnek kapsamına dahil edilmedi.
+Güncel API dosyalarını [openapi klasöründeki](../openapi/README.md) adreslerden alın. `node tools/prepare.mjs` komutu bu dosyalardan işlem listesi, JSON örnekleri ve Postman koleksiyonunu yeniden hazırlar.
 
-Bu kontrollerin geçmesi gerçek sunucu üzerinde uçtan uca entegrasyonun başarılı olduğu anlamına gelmez. Hesabınızla denemeye [başlangıç rehberinden](baslangic.md) başlayın.
-
-## İlk hazırlama sırasında alınan sonuçlar
-
-12 Ekim 2026 tarihindeki yerel kontrolde JSON/doküman/OpenAPI/Postman doğrulamaları geçti. .NET 8 derlemesi sıfır hata ve sıfır uyarıyla tamamlandı. Çevrimdışı .NET çalıştırma kontrolleri, Windows Application Control politikası derlenen DLL'yi engellediği için çalıştırılamadı. PHP bu makinede kurulu olmadığından yerel PHP sözdizimi/çalıştırma kontrolü yapılmadı.
-
-GitHub Actions iş akışı bu doğrulamaları, .NET çevrimdışı komut kontrollerini ve PHP sözdizimi kontrolünü repo yayımlandığında çalıştıracak şekilde hazırlanmıştır; henüz CI sonucu yoktur.
+Bu komut örnek dosyaların üzerine yazar. Kendi hesap bilgilerinizi eklediğiniz dosyaları ayrı yerde tutun. Ardından ürün rehberlerini gözden geçirin ve yukarıdaki kontrolleri çalıştırın.

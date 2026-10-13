@@ -54,11 +54,15 @@ function validate(value,schema,spec,label) {
   }
 }
 for (const spec of specs) {
-  for (const [file,model] of [['token.request.json','LoginTokenDTO'],['create-invoice.request.json','CreateInvoiceRequestDTO'],['convert-to-einvoice.request.json','ConvertToEInvoiceOpenApiRequestDto']]) {
+  for (const [file,model] of [['token.request.json','LoginTokenDTO'],['create-invoice.request.json','CreateInvoiceRequestDTO'],['convert-to-einvoice.request.json','ConvertToEInvoiceOpenApiRequestDto'],['add-despatch.request.json','CreateDespatchRequestDTO'],['add-smm-invoice.request.json','CreateSMMInvoiceRequestDTO']]) {
     validate(JSON.parse(fs.readFileSync(`samples/json/${file}`,'utf8')),spec.components.schemas[model],spec,file);
   }
 }
 const collection = JSON.parse(fs.readFileSync('postman/faturaport.postman_collection.json','utf8'));
+for (const file of ['samples/json/add-despatch.request.json', 'samples/json/add-smm-invoice.request.json']) {
+  const request = JSON.parse(fs.readFileSync(file,'utf8'));
+  assert.equal(request.draftDespatchType ?? request.draftSmmInvoiceType,'DraftInvoice','İlk örnek taslak oluşturmalı');
+}
 assert.equal(collection.item.length,Object.keys(specs[0].paths).length);
 for (const item of collection.item) {
   const p = item.request.url.replace('{{baseUrl}}','').split('?')[0].replace(/\{\{([^}]+)\}\}/g,'{$1}');

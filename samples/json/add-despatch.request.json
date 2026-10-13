@@ -1,0 +1,48 @@
+{
+  "despatchOutputType": "Pdf",
+  "despatchProfileId": "TEMELIRSALIYE",
+  "despatchDocumentTypeId": "SEVK",
+  "despatchPrefixId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "despatchDate": "2026-10-12T10:00:00Z",
+  "actualDespatchDate": "2026-10-12T10:30:00Z",
+  "orderNumber": "SIP-2026-001",
+  "orderDate": "2026-10-12T09:00:00Z",
+  "description": "İrsaliye açıklaması",
+  "company": {
+    "companyName": "ÖRNEK TEST FİRMASI",
+    "taxNumber": "0000000000",
+    "taxOffice": "Örnek Vergi Dairesi",
+    "address": "Örnek Mahalle, Örnek Sokak No:1",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey",
+    "isAddCompany": false
+  },
+  "deliveryAddress": "teslimat adres1",
+  "deliveryCity": "Gaziantep",
+  "deliveryDistrict": "Şahinbey",
+  "carrier": {
+    "carrierTitle": "Taşıyıcı Lojistik Ltd.",
+    "carrierTaxNumber": "0000000000",
+    "driverPersonFirstName": "Ahmet",
+    "driverPersonLastName": "Yılmaz",
+    "driverPersonTaxNumber": "00000000000",
+    "licensePlate": "27BB123",
+    "transportLicensePlate": "27DD456",
+    "phoneNumber": "05551234567",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey"
+  },
+  "draftDespatchType": "DraftInvoice",
+  "lineItems": [
+    {
+      "quantity": 10,
+      "unitId": 1,
+      "product": {
+        "productName": "Ürün 1",
+        "price": 100
+      }
+    }
+  ]
+}

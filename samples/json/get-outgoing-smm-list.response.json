@@ -1,0 +1,26 @@
+{
+  "succeeded": true,
+  "success": true,
+  "message": "Listeleme işlemi başarılı.",
+  "datas": [
+    {
+      "invoiceId": "f2937a6e-f496-45bd-8694-08decb96e4f3",
+      "invoiceDate": "2026-06-16T13:44:37.697",
+      "invoiceNumber": "SMM2026000000001",
+      "companyTitle": "ÖRNEK TEST FİRMASI",
+      "companyTaxNumber": "0000000000",
+      "invoiceProfile": "e-SMM",
+      "invoiceDocumentType": "SATIS",
+      "outgoingStatus": "İşleniyor",
+      "payableAmount": 13500,
+      "taxAmount": 1500,
+      "currencyType": "₺"
+    }
+  ],
+  "pageNumber": 1,
+  "pageSize": 10,
+  "isFirstPage": true,
+  "isLastPage": true,
+  "totalPages": 1,
+  "totalRecords": 1
+}

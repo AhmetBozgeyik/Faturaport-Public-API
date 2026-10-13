@@ -72,6 +72,16 @@ try {
             if (!preg_match('/^\d{10,11}$/D', $tax)) throw new InvalidArgumentException('VKN/TCKN 10 veya 11 rakam olmalıdır.');
             $method = 'POST'; $path .= 'check-customer-einvoice-info/' . $tax; break;
         case 'create': $method = 'POST'; $path .= 'add-invoice'; $body = bodyFile(2); break;
+        case 'create-despatch': $method = 'POST'; $path .= 'add-despatch'; $body = bodyFile(2); break;
+        case 'create-smm': $method = 'POST'; $path .= 'add-smm-invoice'; $body = bodyFile(2); break;
+        case 'despatch-prefixes': $path .= 'get-despatch-prefix-list'; break;
+        case 'smm-prefixes': $path .= 'get-smm-prefix-list'; break;
+        case 'despatch-drafts': $path .= 'get-draft-despatch-list?PageNumber=1&PageSize=10'; break;
+        case 'smm-drafts': $path .= 'get-draft-smm-list?PageNumber=1&PageSize=10'; break;
+        case 'smm-list': $path .= 'get-outgoing-smm-list?PageNumber=1&PageSize=10'; break;
+        case 'despatch-preview': $path .= 'get-draft-despatch-preview/' . guid(2); break;
+        case 'smm-preview': $path .= 'get-draft-smm-preview/' . guid(2); break;
+        case 'smm-pdf': case 'smm-xml': $path .= 'get-' . $command . '/' . guid(2); $output = arg(3); break;
         case 'send': $method = 'POST'; $path .= 'convert-to-einvoice'; $body = bodyFile(2); break;
         case 'status': $method = 'POST'; $path .= 'check-invoice-status'; $body = ['invoiceId' => guid(2), 'invoiceDocumentDirection' => direction(3)]; break;
         case 'drafts': $path .= 'get-draft-invoice-list?PageNumber=1&PageSize=10'; break;

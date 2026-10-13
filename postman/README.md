@@ -1,13 +1,25 @@
-# Postman koleksiyonu
+# Postman ile Faturaport API'yi deneme
 
-1. [Koleksiyonu](faturaport.postman_collection.json) Postman'e import edin.
-2. `baseUrl` varsayılan olarak Dev adresidir. `companyCode`, `clientId` ve `clientSecret` değerlerini kendi yerel değişkenlerinize girin.
-3. **POST Token Alma** isteğini çalıştırın. Başarılı yanıtta `data.accessToken`, koleksiyonun `accessToken` değişkenine aktarılır.
-4. **GET Birim listesi** isteğiyle erişimi doğrulayın.
-5. Mükellef sorgusu için `taxnumber`, belge çağrıları için uygun ID değişkenlerini doldurun.
+Kod yazmadan API bağlantısını ve belge işlemlerini denemek için bu koleksiyonu kullanabilirsiniz. Koleksiyon güncel dokümandaki 34 işlemi içerir.
 
-Koleksiyon bütün 21 public işlemi içerir. **Koleksiyonun tamamını Runner ile çalıştırmayın**: taslak oluşturma, gönderme, silme ve e-Arşiv iptal işlemleri içerir. İstekleri ihtiyacınız olan sırayla ayrı çalıştırın.
+## Bağlantıyı kurun
 
-Taslak oluşturma ve dönüştürme gövdeleri JSON şablonlarıdır; gövde içindeki UUID/alias değerlerini kendiniz değiştirin. URL değişkenlerinin değiştirilmesi gövdeleri otomatik güncellemez. `direction` varsayılan `1` (giden), gelen için `2`; [şema farkı](../docs/sorun-giderme.md).
+1. [Koleksiyon dosyasını](faturaport.postman_collection.json) Postman'de **Import** ile açın.
+2. Koleksiyon değişkenlerinde `companyCode`, `clientId` ve `clientSecret` alanlarını kendi bilgilerinizle doldurun.
+3. `baseUrl` test için `https://devapi.faturaport.com` olarak hazırdır.
+4. **POST Token Alma** isteğini çalıştırın. Başarılı yanıtta token otomatik olarak `accessToken` değişkenine kaydedilir.
+5. **GET Birim listesi** isteğini çalıştırarak bağlantıyı kontrol edin.
 
-Erişim bilgilerini veya tokenı içeren koleksiyonu export edip repoya eklemeyin. Canlıya geçerken `baseUrl`, erişim bilgileri ve belge/seri ID'lerini Canlı değerleriyle değiştirin.
+## Belge oluşturun
+
+Yapacağınız işleme göre [e-Fatura](../docs/efatura.md), [e-İrsaliye](../docs/eirsaliye.md) veya [e-SMM](../docs/esmm.md) rehberini izleyin. Önce gerekli seriyi ve birimleri sorgulayın, ardından oluşturma isteğinin **Body** bölümündeki örnek JSON'u düzenleyin.
+
+İstek adresindeki `invoiceId`, `despatchId`, `draftDespatchId` gibi değerleri koleksiyon değişkenlerinden doldurabilirsiniz. **Body içindeki seri ve belge ID'leri ayrıca değiştirilmelidir**; adres değişkenlerini düzenlemek JSON içeriğini değiştirmez.
+
+İrsaliye ve e-SMM oluşturma örnekleri taslak kaydeder. Doğrudan gönderim yapacaksanız rehberdeki kayıt türünü seçin.
+
+## İstekleri ayrı çalıştırın
+
+İhtiyacınız olan isteği seçip **Send** ile gönderin. Koleksiyonun tamamını **Runner** üzerinden çalıştırmayın; içinde belge oluşturma, gönderme, taslak silme ve e-Arşiv iptal işlemleri bulunur.
+
+Canlıya geçerken API adresini, erişim bilgilerini ve belge/seri ID'lerini Canlı hesabınıza göre değiştirin. Erişim bilgilerinizi veya tokenınızı içeren koleksiyonu dışa aktarıp GitHub'a yüklemeyin.

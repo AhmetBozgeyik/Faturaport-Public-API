@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "invoicePrefixId": "7842a8b8-5f4f-4ccc-ff9c-08df2540ad03",
+      "prefix": "SMM",
+      "lastUsedNumber": 2026000000001,
+      "isDefault": true
+    }
+  ],
+  "success": true,
+  "message": null
+}

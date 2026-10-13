@@ -28,6 +28,16 @@ try
             if (tax.Length is not (10 or 11) || !tax.All(char.IsAsciiDigit)) throw new ArgumentException("VKN/TCKN 10 veya 11 rakam olmalıdır.");
             method = HttpMethod.Post; path += "check-customer-einvoice-info/" + tax; break;
         case "create": method = HttpMethod.Post; path += "add-invoice"; body = Body(1); break;
+        case "create-despatch": method = HttpMethod.Post; path += "add-despatch"; body = Body(1); break;
+        case "create-smm": method = HttpMethod.Post; path += "add-smm-invoice"; body = Body(1); break;
+        case "despatch-prefixes": path += "get-despatch-prefix-list"; break;
+        case "smm-prefixes": path += "get-smm-prefix-list"; break;
+        case "despatch-drafts": path += "get-draft-despatch-list?PageNumber=1&PageSize=10"; break;
+        case "smm-drafts": path += "get-draft-smm-list?PageNumber=1&PageSize=10"; break;
+        case "smm-list": path += "get-outgoing-smm-list?PageNumber=1&PageSize=10"; break;
+        case "despatch-preview": path += "get-draft-despatch-preview/" + Id(1); break;
+        case "smm-preview": path += "get-draft-smm-preview/" + Id(1); break;
+        case "smm-pdf": case "smm-xml": path += "get-" + args[0] + "/" + Id(1); output = Arg(2); break;
         case "send": method = HttpMethod.Post; path += "convert-to-einvoice"; body = Body(1); break;
         case "status": method = HttpMethod.Post; path += "check-invoice-status"; body = new JsonObject { ["invoiceId"] = Id(1), ["invoiceDocumentDirection"] = Direction(2) }; break;
         case "drafts": path += "get-draft-invoice-list?PageNumber=1&PageSize=10"; break;
