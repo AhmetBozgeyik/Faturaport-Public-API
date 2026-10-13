@@ -1,0 +1,69 @@
+{
+  "invoiceOutputType": "Html",
+  "invoiceTypeId": "Istisna",
+  "invoiceProfileId": "EARSIVFATURA",
+  "invoicePrefixId": "a8288d4d-8d1d-4111-c0a8-08de494e9f3b",
+  "invoiceDate": "2026-10-13T14:16:47",
+  "alias": null,
+  "draftInvoiceType": "EInvoice",
+  "currencyType": "TRY",
+  "currencyRate": 1,
+  "isTaxIncludedInPrice": false,
+  "subTotalAmount": 50000.00,
+  "subTotalGrossAmount": 50000.00,
+  "subTotalDiscountValue": 0,
+  "subTotalDiscountIsPercent": true,
+  "totalTax": 0.00,
+  "totalAmount": 50000.00,
+  "description": "* Yalnız ELLİ BİN Türk Lirası  ",
+  "company": {
+    "companyName": "Faruk Aslan",
+    "taxNumber": "11111111111",
+    "taxOffice": "Beyan Edilmedi",
+    "address": "Test mahallesi test sokak no : 66",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey",
+    "isAddCompany": false
+  },
+  "lineItems": [
+    {
+      "taxRateType": "KDV_0",
+      "quantity": 1,
+      "unitPrice": 50000.00,
+      "unitId": 1,
+      "taxAmount": 0.00,
+      "isDiscountPercent": false,
+      "discountAmount": 0,
+      "discountValue": 0,
+      "subTotal": 50000.00,
+      "subTotalIncludingDiscount": 50000.00,
+      "total": 50000.00,
+      "lineDescription": "",
+      "product": {
+        "productName": "Ürün",
+        "price": 50000.00
+      },
+      "lineItemTaxes": [
+        {
+          "invoiceCodeId": null,
+          "lineItemTaxType": "KDV",
+          "isTaxPercent": true,
+          "amount": 0.00,
+          "percent": 0,
+          "taxableAmount": 50000.00
+        },
+        {
+          "invoiceCodeId": 46,
+          "lineItemTaxType": "ISTISNA",
+          "isTaxPercent": true,
+          "amount": 0.00,
+          "percent": 0,
+          "taxableAmount": 50000.00
+        }
+      ]
+    }
+  ],
+  "orderInfos": [],
+  "despatchInfos": []
+}

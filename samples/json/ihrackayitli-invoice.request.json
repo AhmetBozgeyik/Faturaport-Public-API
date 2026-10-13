@@ -1,0 +1,70 @@
+{
+  "invoiceOutputType": "Html",
+  "invoiceTypeId": "IhracKayitli",
+  "invoiceProfileId": "EARSIVFATURA",
+  "invoicePrefixId": "a8288d4d-8d1d-4111-c0a8-08de494e9f3b",
+  "invoiceDate": "2026-10-13T14:41:16",
+  "alias": null,
+  "draftInvoiceType": "EInvoice",
+  "currencyType": "TRY",
+  "currencyRate": 1,
+  "isTaxIncludedInPrice": false,
+  "subTotalAmount": 500000.00,
+  "subTotalGrossAmount": 500000.00,
+  "subTotalDiscountValue": 0,
+  "subTotalDiscountIsPercent": true,
+  "totalTax": 0.00,
+  "totalAmount": 500000.00,
+  "description": "* Yalnız BEŞYÜZ BİN Türk Lirası  ",
+  "company": {
+    "companyName": "Merve Çiçek",
+    "taxNumber": "11111111111",
+    "taxOffice": "VD",
+    "address": "test mahallesi test sokak no 25/1",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey",
+    "isAddCompany": false
+  },
+  "lineItems": [
+    {
+      "productId": "f0d1df5f-1867-43ac-392f-08de78fe78b9",
+      "taxRateType": "KDV_0",
+      "quantity": 1,
+      "unitPrice": 500000.00,
+      "unitId": 1,
+      "taxAmount": 0.00,
+      "isDiscountPercent": false,
+      "discountAmount": 0,
+      "discountValue": 0,
+      "subTotal": 500000.00,
+      "subTotalIncludingDiscount": 500000.00,
+      "total": 500000.00,
+      "lineDescription": "",
+      "product": {
+        "productName": "İhraç Kayıtlı Ürün",
+        "price": 500000.00
+      },
+      "lineItemTaxes": [
+        {
+          "invoiceCodeId": null,
+          "lineItemTaxType": "KDV",
+          "isTaxPercent": true,
+          "amount": 0.00,
+          "percent": 0,
+          "taxableAmount": 500000.00
+        },
+        {
+          "invoiceCodeId": 115,
+          "lineItemTaxType": "IHRACKAYITLI",
+          "isTaxPercent": true,
+          "amount": 0.00,
+          "percent": 0,
+          "taxableAmount": 500000.00
+        }
+      ]
+    }
+  ],
+  "orderInfos": [],
+  "despatchInfos": []
+}

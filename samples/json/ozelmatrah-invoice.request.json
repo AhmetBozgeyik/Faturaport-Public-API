@@ -1,0 +1,69 @@
+{
+  "invoiceOutputType": "PDF",
+  "invoiceTypeId": "OzelMatrah",
+  "invoiceProfileId": "EARSIVFATURA",
+  "invoicePrefixId": "61815001-b5b7-416d-e430-08de2ea1859b",
+  "invoiceDate": "2026-10-13T13:42:39",
+  "alias": null,
+  "draftInvoiceType": "EInvoice",
+  "currencyType": "TRY",
+  "currencyRate": 1,
+  "isTaxIncludedInPrice": false,
+  "subTotalAmount": 1000000.00,
+  "subTotalGrossAmount": 1000000.00,
+  "subTotalDiscountValue": 0,
+  "subTotalDiscountIsPercent": true,
+  "totalTax": 40000.00,
+  "totalAmount": 1240000.00,
+  "description": "* Yalnız BİR MİLYON İKİYÜZKIRK BİN Türk Lirası  ",
+  "company": {
+    "companyName": "Burak Yılmaz",
+    "taxNumber": "11111111111",
+    "taxOffice": "Beyan Edilmedi",
+    "address": "Örnek mah. Örnek sokak no 55",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey",
+    "isAddCompany": false
+  },
+  "lineItems": [
+    {
+      "taxRateType": "KDV_20",
+      "quantity": 1,
+      "unitPrice": 1000000.00,
+      "unitId": 1,
+      "taxAmount": 40000.00,
+      "isDiscountPercent": false,
+      "discountAmount": 0,
+      "discountValue": 0,
+      "subTotal": 1000000.00,
+      "subTotalIncludingDiscount": 1000000.00,
+      "total": 1240000.00,
+      "lineDescription": "",
+      "product": {
+        "productName": "Araç Satışı",
+        "price": 1000000.00
+      },
+      "lineItemTaxes": [
+        {
+          "invoiceCodeId": null,
+          "lineItemTaxType": "KDV",
+          "isTaxPercent": true,
+          "amount": 40000.00,
+          "percent": 20,
+          "taxableAmount": 1000000.00
+        },
+        {
+          "invoiceCodeId": 113,
+          "lineItemTaxType": "OZELMATRAH",
+          "isTaxPercent": false,
+          "amount": 40000.00,
+          "percent": 20,
+          "taxableAmount": 200000.00
+        }
+      ]
+    }
+  ],
+  "orderInfos": [],
+  "despatchInfos": []
+}

@@ -1,0 +1,69 @@
+{
+  "invoiceOutputType": "PDF",
+  "invoiceTypeId": "Tevkifat",
+  "invoiceProfileId": "EARSIVFATURA",
+  "invoicePrefixId": "61815001-b5b7-416d-e430-08de2ea1859b",
+  "invoiceDate": "2026-10-13T13:30:45",
+  "alias": null,
+  "draftInvoiceType": "EInvoice",
+  "currencyType": "TRY",
+  "currencyRate": 1,
+  "isTaxIncludedInPrice": false,
+  "subTotalAmount": 10000.00,
+  "subTotalGrossAmount": 10000.00,
+  "subTotalDiscountValue": 0,
+  "subTotalDiscountIsPercent": true,
+  "totalTax": 200.00,
+  "totalAmount": 10200.00,
+  "description": "* Yalnız ON BİN İKİYÜZ Türk Lirası  ",
+  "company": {
+    "companyName": "Ahmet Demir",
+    "taxNumber": "11111111111",
+    "taxOffice": "Beyan Edilmedi",
+    "address": "Örnek mahallesi Örnek sokak. no 45",
+    "country": "Türkiye",
+    "city": "Gaziantep",
+    "district": "Şahinbey",
+    "isAddCompany": false
+  },
+  "lineItems": [
+    {
+      "taxRateType": "KDV_20",
+      "quantity": 1,
+      "unitPrice": 10000.00,
+      "unitId": 1,
+      "taxAmount": 2000.00,
+      "isDiscountPercent": false,
+      "discountAmount": 0,
+      "discountValue": 0,
+      "subTotal": 10000.00,
+      "subTotalIncludingDiscount": 10000.00,
+      "total": 10200.00,
+      "lineDescription": "",
+      "product": {
+        "productName": "Tevkifatlı Ürün",
+        "price": 10000.00
+      },
+      "lineItemTaxes": [
+        {
+          "invoiceCodeId": null,
+          "lineItemTaxType": "KDV",
+          "isTaxPercent": true,
+          "amount": 2000.00,
+          "percent": 20,
+          "taxableAmount": 10000.00
+        },
+        {
+          "invoiceCodeId": 2,
+          "lineItemTaxType": "TEVKIFAT",
+          "isTaxPercent": true,
+          "amount": 1800.00,
+          "percent": 90,
+          "taxableAmount": 2000.00
+        }
+      ]
+    }
+  ],
+  "orderInfos": [],
+  "despatchInfos": []
+}
